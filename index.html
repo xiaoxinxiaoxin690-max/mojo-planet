@@ -127,13 +127,13 @@
         .cart-checkout:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(37,99,235,0.3)}
 
         /* HERO */
-        .hero{margin-top:64px;position:relative;overflow:hidden}
+        .hero{margin-top:64px;position:relative;overflow:hidden;background:var(--white);background-image:radial-gradient(circle,#e2e8f0 1.5px,transparent 1.5px);background-size:20px 20px}
         .hero-slider{display:flex;transition:transform 0.6s cubic-bezier(0.4,0,0.2,1)}
         .hero-slide{min-width:100%;display:flex;min-height:680px;position:relative}
         .hero-bg{position:absolute;inset:0;z-index:0}
-        .hero-slide:nth-child(1) .hero-bg{background:#EFF6FF}
-        .hero-slide:nth-child(2) .hero-bg{background:#DBEAFE}
-        .hero-slide:nth-child(3) .hero-bg{background:#BFDBFE}
+        .hero-slide:nth-child(1) .hero-bg{background:transparent}
+        .hero-slide:nth-child(2) .hero-bg{background:transparent}
+        .hero-slide:nth-child(3) .hero-bg{background:transparent}
         .hero-blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:0.4;z-index:1}
         .hero-slide:nth-child(1) .hb1{width:300px;height:300px;background:#93C5FD;right:8%;top:-10%}
         .hero-slide:nth-child(1) .hb2{width:200px;height:200px;background:#BFDBFE;right:25%;bottom:-5%}
@@ -161,11 +161,12 @@
         .hero-slide:nth-child(3) .hero-cta{background:linear-gradient(135deg,#059669,var(--accent));box-shadow:0 8px 25px rgba(6,214,160,0.3)}
         .hero-cta:hover{transform:translateY(-2px)}
         .hero-cta svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
-        .hero-img-col{width:62%;position:relative;z-index:5;display:flex;align-items:center;justify-content:center;overflow:visible;margin-left:-80px}
+        .hero-img-col{width:100%;position:relative;z-index:5;display:flex;align-items:center;justify-content:center;overflow:visible}
+        .hero-img-col .hero-img{border:2px solid #e2e8f0;border-radius:18px}
         .hero-img-col::before{content:'';position:absolute;left:-200px;top:0;bottom:0;width:400px;z-index:3;pointer-events:none}
-        .hero-slide:nth-child(1) .hero-img-col::before{background:linear-gradient(90deg,#EFF6FF,rgba(239,246,255,0.8) 40%,rgba(239,246,255,0.3) 70%,transparent)}
-        .hero-slide:nth-child(2) .hero-img-col::before{background:linear-gradient(90deg,#DBEAFE,rgba(219,234,254,0.8) 40%,rgba(219,234,254,0.3) 70%,transparent)}
-        .hero-slide:nth-child(3) .hero-img-col::before{background:linear-gradient(90deg,#BFDBFE,rgba(191,219,254,0.8) 40%,rgba(191,219,254,0.3) 70%,transparent)}
+        .hero-slide:nth-child(1) .hero-img-col::before{background:linear-gradient(90deg,var(--white),rgba(255,255,255,0.8) 40%,rgba(255,255,255,0.3) 70%,transparent)}
+        .hero-slide:nth-child(2) .hero-img-col::before{background:linear-gradient(90deg,var(--white),rgba(255,255,255,0.8) 40%,rgba(255,255,255,0.3) 70%,transparent)}
+        .hero-slide:nth-child(3) .hero-img-col::before{background:linear-gradient(90deg,var(--white),rgba(255,255,255,0.8) 40%,rgba(255,255,255,0.3) 70%,transparent)}
         .hero-img{height:95%;max-height:660px;width:auto;object-fit:contain;filter:drop-shadow(0 20px 60px rgba(0,0,0,0.12));animation:imgFloat 5s ease-in-out infinite;position:relative;z-index:2}
         @keyframes imgFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
         .hero-particles{position:absolute;inset:0;z-index:2;pointer-events:none}
@@ -195,7 +196,7 @@
         @keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
         /* SECTIONS */
-        .section{padding:90px 56px}
+        .section{padding:90px 56px;border-top:2px solid #e2e8f0}
         .section-head{text-align:center;margin-bottom:56px}
         .section-head .tag{display:inline-block;padding:4px 14px;border-radius:12px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
         .tag-blue{background:rgba(37,99,235,0.06);color:var(--blue)}
@@ -265,7 +266,7 @@
         .video-fallback svg{width:48px;height:48px;stroke:#D1D5DB;fill:none;stroke-width:1.2}
 
         /* FEATURED */
-        .featured-section{background:var(--light)}
+        .featured-section{background:var(--light);background-image:radial-gradient(circle,#cbd5e1 1.2px,transparent 1.2px);background-size:20px 20px}
         .featured-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:1200px;margin:0 auto}
         .featured-card{border-radius:22px;overflow:hidden;position:relative;height:380px;cursor:pointer;transition:all 0.4s}
         .featured-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,0.12)}
@@ -304,7 +305,7 @@
         .blindbox-grid{display:flex;gap:20px;max-width:1200px;margin:0 auto}
         .blindbox-card{flex:1;background:#F8FAFC;border:1px solid #F1F5F9;border-radius:22px;padding:30px 20px;text-align:center;transition:all 0.4s;cursor:pointer;position:relative;overflow:hidden}
         .blindbox-card:hover{background:#F1F5F9;border-color:#E2E8F0;transform:translateY(-8px);box-shadow:0 12px 40px rgba(0,0,0,0.08)}
-        .blindbox-img{width:150px;height:190px;object-fit:contain;margin:0 auto 18px;filter:drop-shadow(0 8px 20px rgba(0,0,0,0.08));transition:transform 0.5s}
+        .blindbox-img{width:200px;height:267px;object-fit:contain;margin:0 auto 18px;filter:drop-shadow(0 8px 20px rgba(0,0,0,0.08));transition:transform 0.5s}
         .blindbox-card:hover .blindbox-img{transform:scale(1.08) rotate(-2deg)}
         .blindbox-card h3{font-size:17px;font-weight:700;margin-bottom:4px;color:var(--dark)}
         .blindbox-card .sub{font-size:12px;color:var(--gray);margin-bottom:14px}
@@ -472,14 +473,20 @@
         body.dark-theme .nav-user{border-color:#374151;color:#9CA3AF}
         body.dark-theme .nav-user:hover{border-color:var(--blue);color:var(--blue)}
         body.dark-theme .ip-section,body.dark-theme .featured-section,body.dark-theme .arrivals-section,body.dark-theme .blindbox-section,body.dark-theme .story-section,body.dark-theme .reviews-section,body.dark-theme .faq-section,body.dark-theme .poster-section{background:#111827}
-        body.dark-theme .ip-section,body.dark-theme .poster-section,body.dark-theme .reviews-section,body.dark-theme .story-section{background-image:radial-gradient(circle,#1f2937 1.2px,transparent 1.2px)}
+        body.dark-theme .ip-section,body.dark-theme .featured-section,body.dark-theme .poster-section,body.dark-theme .reviews-section,body.dark-theme .story-section{background-image:radial-gradient(circle,#1f2937 1.2px,transparent 1.2px)}
         body.dark-theme .arrivals-section,body.dark-theme .blindbox-section,body.dark-theme .faq-section{background-image:radial-gradient(circle,#1f2937 1.2px,transparent 1.2px)}
         body.dark-theme .ip-card,body.dark-theme .arrival-card,body.dark-theme .review-card,body.dark-theme .blindbox-card{background:#1F2937;border-color:#374151}
         body.dark-theme .ip-card-info h3,body.dark-theme .arrival-info h4,body.dark-theme .story-text h3,body.dark-theme .section-head h2,body.dark-theme .review-name,body.dark-theme .faq-q{color:white}
         body.dark-theme .section-head p,body.dark-theme .ip-card-info p,body.dark-theme .blindbox-card .sub,body.dark-theme .blindbox-price small,body.dark-theme .review-date{color:#9CA3AF}
         body.dark-theme .featured-card-text h3{color:white}
         body.dark-theme .blindbox-card h3{color:white}
+        body.dark-theme .section{border-top-color:#374151}
         body.dark-theme .ticker{background:#111827;background-image:radial-gradient(circle,#1f2937 1px,transparent 1px);background-size:16px 16px;border-color:#1F2937}
+body.dark-theme .hero{background:#111827;background-image:radial-gradient(circle,#1f2937 1.5px,transparent 1.5px);background-size:20px 20px}
+body.dark-theme .hero-img-col .hero-img{border-color:#374151}
+body.dark-theme .hero-slide:nth-child(1) .hero-img-col::before,
+body.dark-theme .hero-slide:nth-child(2) .hero-img-col::before,
+body.dark-theme .hero-slide:nth-child(3) .hero-img-col::before{background:linear-gradient(90deg,#111827,rgba(17,24,39,0.8) 40%,rgba(17,24,39,0.3) 70%,transparent)}
         body.dark-theme .mobile-menu{background:#1F2937}
         body.dark-theme .mobile-menu a{color:#E5E7EB;border-color:#374151}
         body.dark-theme .search-overlay{background:rgba(17,24,39,0.97)}
@@ -643,15 +650,12 @@
 <section class="hero" aria-label="轮播">
     <div class="hero-slider" id="heroSlider">
         <div class="hero-slide"><div class="hero-bg"></div><div class="hero-blob hb1"></div><div class="hero-blob hb2"></div>
-            <div class="hero-text"><div class="hero-badge">NEW ARRIVAL 2026</div><h1 class="hero-title">潮玩星球<br><em>奇妙冒险</em></h1><p class="hero-desc">探索独一无二的原创设计师潮玩，每一件作品都承载着设计师的灵感与匠心，开启你的收藏之旅。</p><a href="#ip" class="hero-cta">立即探索 <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
             <div class="hero-img-col"><div class="hero-particles"><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div></div><img src="潮玩角色海报/王子.jpg" alt="星梦王子" class="hero-img" loading="eager"></div>
         </div>
         <div class="hero-slide"><div class="hero-bg"></div><div class="hero-blob hb1"></div><div class="hero-blob hb2"></div>
-            <div class="hero-text"><div class="hero-badge">限定系列</div><h1 class="hero-title">国风幻想<br><em>东方美学</em></h1><p class="hero-desc">传统与潮流的碰撞，演绎东方美学新境界。古典韵味融入现代设计，每一处细节都值得细细品味。</p><a href="#series" class="hero-cta">探索系列 <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
             <div class="hero-img-col"><div class="hero-particles"><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div></div><img src="潮玩角色海报/国风少女.jpg" alt="东方绮梦" class="hero-img" loading="eager"></div>
         </div>
         <div class="hero-slide"><div class="hero-bg"></div><div class="hero-blob hb1"></div><div class="hero-blob hb2"></div>
-            <div class="hero-text"><div class="hero-badge">HOT SALE</div><h1 class="hero-title">森林物语<br><em>自然精灵</em></h1><p class="hero-desc">走进奇幻森林，遇见你的守护精灵。自然之美与潮玩艺术的完美结合，治愈你的每一天。</p><a href="#video" class="hero-cta">观看演示 <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
             <div class="hero-img-col"><div class="hero-particles"><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div></div><img src="潮玩角色海报/森林少女.jpg" alt="森林少女" class="hero-img" loading="eager"></div>
         </div>
     </div>
@@ -682,6 +686,9 @@
     </div>
     <p class="video-caption reveal"><strong>森林少女</strong> — 奇幻森林系列 · 角色演示视频</p>
 </section>
+
+<!-- TICKER 2 -->
+<div class="ticker" aria-hidden="true"><div class="ticker-track"><span class="ticker-item accent">MOJO PLANET</span><span class="ticker-item">DESIGNER TOY</span><span class="ticker-item accent">潮玩星球</span><span class="ticker-item">奇妙冒险</span><span class="ticker-item accent">COLLECTIBLE</span><span class="ticker-item">限定发售</span><span class="ticker-item accent">MOJO PLANET</span><span class="ticker-item">DESIGNER TOY</span><span class="ticker-item accent">潮玩星球</span><span class="ticker-item">奇妙冒险</span><span class="ticker-item accent">COLLECTIBLE</span><span class="ticker-item">限定发售</span></div></div>
 
 <!-- IP GRID -->
 <section class="section ip-section" id="ip" aria-label="IP角色">
@@ -719,10 +726,10 @@
 <section class="section blindbox-section" id="blindbox" aria-label="盲盒">
     <div class="section-head reveal"><div class="tag tag-blue">BLIND BOX</div><h2>盲盒探索</h2><p>每一次拆盒，都是一次惊喜的冒险</p><div class="line"></div></div>
     <div class="blindbox-grid">
-        <div class="blindbox-card reveal"><img src="潮玩角色设定/可爱卡通.png" alt="甜心宝贝" class="blindbox-img" loading="lazy"><h3>甜心宝贝盲盒</h3><p class="sub">甜心宝贝系列 · 第2弹</p><div class="blindbox-price">¥69 <small>/个</small></div><a href="#" class="blindbox-btn">立即抽盒</a></div>
-        <div class="blindbox-card reveal"><img src="潮玩角色设定/小云仔.png" alt="小云仔" class="blindbox-img" loading="lazy"><h3>小云仔盲盒</h3><p class="sub">云端奇遇系列 · 第1弹</p><div class="blindbox-price">¥59 <small>/个</small></div><a href="#" class="blindbox-btn">立即抽盒</a></div>
-        <div class="blindbox-card reveal"><img src="潮玩角色设定/萌系.png" alt="暗夜精灵" class="blindbox-img" loading="lazy"><h3>暗夜精灵盲盒</h3><p class="sub">赤瞳精灵系列 · 限定版</p><div class="blindbox-price">¥79 <small>/个</small></div><a href="#" class="blindbox-btn">立即抽盒</a></div>
-        <div class="blindbox-card reveal"><img src="潮玩角色设定/森林少女.png" alt="森林物语" class="blindbox-img" loading="lazy"><h3>森林物语盲盒</h3><p class="sub">森林少女系列 · 第3弹</p><div class="blindbox-price">¥69 <small>/个</small></div><a href="#" class="blindbox-btn">立即抽盒</a></div>
+        <div class="blindbox-card reveal"><img src="潮玩盲盒/盲盒01.png" alt="甜心宝贝" class="blindbox-img" loading="lazy"><h3>甜心宝贝盲盒</h3><p class="sub">甜心宝贝系列 · 第2弹</p><div class="blindbox-price">¥69 <small>/个</small></div><a href="#" class="blindbox-btn">立即抽盒</a></div>
+        <div class="blindbox-card reveal"><img src="潮玩盲盒/盲盒02.png" alt="小云仔" class="blindbox-img" loading="lazy"><h3>小云仔盲盒</h3><p class="sub">云端奇遇系列 · 第1弹</p><div class="blindbox-price">¥59 <small>/个</small></div><a href="#" class="blindbox-btn">立即抽盒</a></div>
+        <div class="blindbox-card reveal"><img src="潮玩盲盒/盲盒03.png" alt="暗夜精灵" class="blindbox-img" loading="lazy"><h3>暗夜精灵盲盒</h3><p class="sub">赤瞳精灵系列 · 限定版</p><div class="blindbox-price">¥79 <small>/个</small></div><a href="#" class="blindbox-btn">立即抽盒</a></div>
+        <div class="blindbox-card reveal"><img src="潮玩盲盒/盲盒04.png" alt="森林物语" class="blindbox-img" loading="lazy"><h3>森林物语盲盒</h3><p class="sub">森林少女系列 · 第3弹</p><div class="blindbox-price">¥69 <small>/个</small></div><a href="#" class="blindbox-btn">立即抽盒</a></div>
     </div>
 </section>
 
