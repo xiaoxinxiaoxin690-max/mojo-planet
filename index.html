@@ -188,7 +188,7 @@
         .breadcrumb span{margin:0 8px;color:#D1D5DB}
 
         /* TICKER */
-        .ticker{padding:20px 0;background:var(--white);overflow:hidden;border-top:1px solid #F1F5F9;border-bottom:1px solid #F1F5F9}
+        .ticker{padding:20px 0;background:var(--white);background-image:radial-gradient(circle,#e2e8f0 1px,transparent 1px);background-size:16px 16px;overflow:hidden;border-top:1px solid #F1F5F9;border-bottom:1px solid #F1F5F9}
         .ticker-track{display:flex;animation:ticker 30s linear infinite}
         .ticker-item{flex-shrink:0;padding:0 48px;font-size:13px;font-weight:700;color:#E2E8F0;white-space:nowrap;letter-spacing:4px;text-transform:uppercase;font-family:'Outfit',sans-serif}
         .ticker-item.accent{color:var(--blue)}
@@ -207,7 +207,9 @@
         .section-head .line{width:36px;height:3px;border-radius:2px;margin:14px auto 0;background:linear-gradient(90deg,var(--blue),var(--blue-dark))}
 
         /* IP GRID */
-        .ip-section{background:var(--light)}
+        /* Pop art dots pattern for sections */
+        .dots-bg{background-image:radial-gradient(circle,#cbd5e1 1.2px,transparent 1.2px);background-size:20px 20px}
+        .ip-section{background:var(--light);background-image:radial-gradient(circle,#cbd5e1 1.2px,transparent 1.2px);background-size:20px 20px}
         .ip-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;max-width:1200px;margin:0 auto}
         .ip-card{background:var(--white);border-radius:18px;overflow:hidden;cursor:pointer;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);box-shadow:0 1px 3px rgba(0,0,0,0.03);position:relative}
         .ip-card:hover{transform:translateY(-8px);box-shadow:0 20px 50px rgba(0,0,0,0.1)}
@@ -283,7 +285,7 @@
         .featured-card-btn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
 
         /* ARRIVALS */
-        .arrivals-section{background:var(--white)}
+        .arrivals-section{background:var(--white);background-image:radial-gradient(circle,#e2e8f0 1.2px,transparent 1.2px);background-size:20px 20px}
         .arrivals-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;max-width:1200px;margin:0 auto}
         .arrival-card{background:var(--white);border-radius:16px;overflow:hidden;cursor:pointer;transition:all 0.35s;border:1px solid #F1F5F9}
         .arrival-card:hover{transform:translateY(-5px);box-shadow:0 12px 35px rgba(0,0,0,0.08)}
@@ -298,7 +300,7 @@
         .arrival-price small{font-size:11px;font-weight:400;color:var(--gray)}
 
         /* BLIND BOX */
-        .blindbox-section{background:var(--white)}
+        .blindbox-section{background:var(--white);background-image:radial-gradient(circle,#e2e8f0 1.2px,transparent 1.2px);background-size:20px 20px}
         .blindbox-grid{display:flex;gap:20px;max-width:1200px;margin:0 auto}
         .blindbox-card{flex:1;background:#F8FAFC;border:1px solid #F1F5F9;border-radius:22px;padding:30px 20px;text-align:center;transition:all 0.4s;cursor:pointer;position:relative;overflow:hidden}
         .blindbox-card:hover{background:#F1F5F9;border-color:#E2E8F0;transform:translateY(-8px);box-shadow:0 12px 40px rgba(0,0,0,0.08)}
@@ -312,7 +314,7 @@
         .blindbox-btn:hover{transform:scale(1.05);box-shadow:0 8px 25px rgba(37,99,235,0.25)}
 
         /* POSTER GALLERY */
-        .poster-section{background:var(--light);padding:90px 0}
+        .poster-section{background:var(--light);background-image:radial-gradient(circle,#cbd5e1 1.2px,transparent 1.2px);background-size:20px 20px;padding:90px 0}
         .poster-section .section-head{padding:0 56px}
         .poster-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding:0 56px}
         .poster-card{border-radius:18px;overflow:hidden;cursor:pointer;position:relative;transition:all 0.5s cubic-bezier(0.4,0,0.2,1)}
@@ -332,7 +334,7 @@
         @media(max-width:768px){.poster-grid{grid-template-columns:repeat(2,1fr);gap:10px}.poster-card:nth-child(5){grid-column:span 2}}
 
         /* REVIEWS */
-        .reviews-section{background:var(--light)}
+        .reviews-section{background:var(--light);background-image:radial-gradient(circle,#cbd5e1 1.2px,transparent 1.2px);background-size:20px 20px}
         .reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1200px;margin:0 auto}
         .review-card{background:var(--white);border-radius:18px;padding:28px;transition:all 0.3s;border:1px solid #F1F5F9}
         .review-card:hover{transform:translateY(-4px);box-shadow:0 12px 35px rgba(0,0,0,0.06)}
@@ -344,7 +346,7 @@
         .review-date{font-size:11px;color:var(--gray)}
 
         /* FAQ */
-        .faq-section{background:var(--white)}
+        .faq-section{background:var(--white);background-image:radial-gradient(circle,#e2e8f0 1.2px,transparent 1.2px);background-size:20px 20px}
         .faq-list{max-width:800px;margin:0 auto}
         .faq-item{border-bottom:1px solid #F1F5F9}
         .faq-q{width:100%;padding:20px 0;background:none;border:none;text-align:left;font-size:16px;font-weight:600;color:var(--dark);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:color 0.2s}
@@ -372,7 +374,7 @@
         .partner-logo:hover{color:var(--blue)}
 
         /* STORY */
-        .story-section{background:var(--light)}
+        .story-section{background:var(--light);background-image:radial-gradient(circle,#cbd5e1 1.2px,transparent 1.2px);background-size:20px 20px}
         .story-wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
         .story-text h3{font-size:30px;font-weight:900;color:var(--dark);margin-bottom:18px;line-height:1.4}
         .story-text p{font-size:14px;color:var(--gray);line-height:1.9;margin-bottom:14px}
@@ -470,12 +472,14 @@
         body.dark-theme .nav-user{border-color:#374151;color:#9CA3AF}
         body.dark-theme .nav-user:hover{border-color:var(--blue);color:var(--blue)}
         body.dark-theme .ip-section,body.dark-theme .featured-section,body.dark-theme .arrivals-section,body.dark-theme .blindbox-section,body.dark-theme .story-section,body.dark-theme .reviews-section,body.dark-theme .faq-section,body.dark-theme .poster-section{background:#111827}
+        body.dark-theme .ip-section,body.dark-theme .poster-section,body.dark-theme .reviews-section,body.dark-theme .story-section{background-image:radial-gradient(circle,#1f2937 1.2px,transparent 1.2px)}
+        body.dark-theme .arrivals-section,body.dark-theme .blindbox-section,body.dark-theme .faq-section{background-image:radial-gradient(circle,#1f2937 1.2px,transparent 1.2px)}
         body.dark-theme .ip-card,body.dark-theme .arrival-card,body.dark-theme .review-card,body.dark-theme .blindbox-card{background:#1F2937;border-color:#374151}
         body.dark-theme .ip-card-info h3,body.dark-theme .arrival-info h4,body.dark-theme .story-text h3,body.dark-theme .section-head h2,body.dark-theme .review-name,body.dark-theme .faq-q{color:white}
         body.dark-theme .section-head p,body.dark-theme .ip-card-info p,body.dark-theme .blindbox-card .sub,body.dark-theme .blindbox-price small,body.dark-theme .review-date{color:#9CA3AF}
         body.dark-theme .featured-card-text h3{color:white}
         body.dark-theme .blindbox-card h3{color:white}
-        body.dark-theme .ticker{background:#111827;border-color:#1F2937}
+        body.dark-theme .ticker{background:#111827;background-image:radial-gradient(circle,#1f2937 1px,transparent 1px);background-size:16px 16px;border-color:#1F2937}
         body.dark-theme .mobile-menu{background:#1F2937}
         body.dark-theme .mobile-menu a{color:#E5E7EB;border-color:#374151}
         body.dark-theme .search-overlay{background:rgba(17,24,39,0.97)}
