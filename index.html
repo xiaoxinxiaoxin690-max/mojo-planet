@@ -227,7 +227,10 @@
         .ip-card-price small{font-size:12px;font-weight:400;color:var(--gray)}
 
         /* VIDEO */
-        .video-section{background:var(--white)}
+        .video-section{background:var(--white);position:relative;overflow:hidden}
+        .video-section::before{content:'';position:absolute;inset:0;background:url('潮玩角色海报/海报设计5.jpg') center/cover no-repeat;opacity:.25;z-index:0}
+        .video-section::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.85);z-index:0}
+        .video-section>*{position:relative;z-index:1}
         .player-container{max-width:900px;margin:0 auto;border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.12);background:#000;position:relative}
         .player-container video{width:100%;display:block;cursor:pointer}
         .player-controls{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.7));padding:30px 16px 12px;display:flex;flex-direction:column;gap:8px;opacity:0;transition:opacity 0.3s}
