@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOJO PLANET - 潮玩星球 | 设计师潮玩品牌</title>
+    <meta name="description" content="MOJO PLANET 潮玩星球 - 探索独一无二的原创设计师潮玩，盲盒、限定款、联名系列，开启你的收藏之旅。">
+    <meta name="keywords" content="潮玩,设计师玩具,盲盒,手办,MOJO PLANET,潮玩星球">
+    <meta property="og:title" content="MOJO PLANET - 潮玩星球">
+    <meta property="og:description" content="探索独一无二的原创设计师潮玩，开启你的收藏之旅。">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="潮玩角色海报/王子.jpg">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{--blue:#2563EB;--blue-dark:#1D4ED8;--blue-light:#3B82F6;--blue-50:#EFF6FF;--blue-100:#DBEAFE;--blue-200:#BFDBFE;--accent:#06D6A0;--orange:#FF8C42;--dark:#0F172A;--gray:#64748B;--light:#F8FAFC;--white:#FFFFFF}
+        html{scroll-behavior:smooth}
+        body{font-family:'Noto Sans SC','Outfit',sans-serif;background:var(--white);color:var(--dark);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+        /* LOADING SCREEN */
+        .loader{position:fixed;inset:0;background:white;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.5s}
+        .loader.hide{opacity:0;pointer-events:none}
+        .loader-spinner{width:48px;height:48px;border:4px solid #F1F5F9;border-top-color:var(--blue);border-radius:50%;animation:spin 0.8s linear infinite}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        .loader-logo{margin-top:16px;height:64px;width:auto;object-fit:contain}
+
+        /* SKELETON */
+        .skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:8px}
+        @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+        /* CURSOR GLOW */
+        .cursor-glow{position:fixed;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(37,99,235,0.06),transparent 70%);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:opacity 0.3s;opacity:0}
+        body:hover .cursor-glow{opacity:1}
+
+        /* SCROLL PROGRESS */
+        .scroll-progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--blue-dark),var(--accent));z-index:10001;width:0%;transition:width 0.1s}
+
+        /* NAV */
+        .nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 56px;background:rgba(255,255,255,0.8);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,0.04);transition:all 0.3s}
+        .nav.scrolled{background:rgba(255,255,255,0.95);box-shadow:0 1px 30px rgba(0,0,0,0.06)}
+        .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+        .nav-logo-img{height:52px;width:auto;object-fit:contain}
+        .nav-menu{display:flex;gap:36px;list-style:none}
+        .nav-menu a{text-decoration:none;color:var(--gray);font-size:14px;font-weight:500;transition:color 0.2s;position:relative}
+        .nav-menu a:hover,.nav-menu a.active{color:var(--dark)}
+        .nav-menu a.active::after{content:'';position:absolute;bottom:-20px;left:0;right:0;height:2px;background:var(--blue);border-radius:2px}
+        .nav-actions{display:flex;align-items:center;gap:10px}
+        .nav-search{width:170px;height:34px;border:1.5px solid #E2E8F0;border-radius:17px;padding:0 14px;font-size:13px;outline:none;background:#F8FAFC;transition:all 0.3s}
+        .nav-search:focus{border-color:var(--blue);background:white;width:210px;box-shadow:0 0 0 4px rgba(37,99,235,0.06)}
+        .nav-btn{width:34px;height:34px;border-radius:50%;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;position:relative}
+        .nav-btn:hover{background:#F1F5F9}
+        .nav-btn svg{width:18px;height:18px;stroke:var(--dark);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+        .nav-badge{position:absolute;top:-1px;right:-1px;width:15px;height:15px;background:var(--blue);color:white;font-size:9px;font-weight:700;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid white}
+        .nav-user{font-size:13px;font-weight:600;color:var(--gray);text-decoration:none;padding:6px 14px;border-radius:16px;transition:all 0.2s;border:1.5px solid #E2E8F0}
+        .nav-user:hover{border-color:var(--blue);color:var(--blue);background:rgba(37,99,235,0.04)}
+
+        /* HAMBURGER */
+        .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;border:none;background:none;z-index:1002}
+        .hamburger span{width:22px;height:2px;background:var(--dark);transition:all 0.3s;border-radius:2px}
+        .hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+        .hamburger.active span:nth-child(2){opacity:0}
+        .hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+        /* MOBILE MENU */
+        .mobile-menu{
+            position:fixed;top:0;right:-100%;width:280px;height:100vh;
+            background:white;z-index:1001;padding:80px 30px 30px;
+            transition:right 0.35s cubic-bezier(0.4,0,0.2,1);
+            box-shadow:-10px 0 40px rgba(0,0,0,0.1);
+        }
+        .mobile-menu.open{right:0}
+        .mobile-menu a{display:block;padding:14px 0;font-size:16px;font-weight:600;color:var(--dark);text-decoration:none;border-bottom:1px solid #F1F5F9;transition:color 0.2s}
+        .mobile-menu a:hover{color:var(--blue)}
+        .mobile-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.3);z-index:1000;opacity:0;visibility:hidden;transition:all 0.3s}
+        .mobile-overlay.open{opacity:1;visibility:visible}
+
+        /* SEARCH OVERLAY */
+        .search-overlay{position:fixed;inset:0;background:rgba(255,255,255,0.97);backdrop-filter:blur(20px);z-index:2000;display:flex;flex-direction:column;align-items:center;padding-top:120px;opacity:0;visibility:hidden;transition:all 0.3s}
+        .search-overlay.open{opacity:1;visibility:visible}
+        .search-overlay-close{position:absolute;top:20px;right:30px;width:44px;height:44px;border-radius:50%;border:none;background:#F1F5F9;cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center;transition:all 0.2s}
+        .search-overlay-close:hover{background:#E2E8F0;transform:rotate(90deg)}
+        .search-overlay input{width:min(600px,90%);height:56px;border:none;border-bottom:3px solid var(--blue);font-size:24px;font-weight:300;outline:none;background:transparent;padding:0 4px;font-family:'Noto Sans SC',sans-serif}
+        .search-overlay input::placeholder{color:#D1D5DB}
+        .search-results{width:min(600px,90%);margin-top:24px;max-height:400px;overflow-y:auto}
+        .search-result-item{display:flex;align-items:center;gap:16px;padding:14px 8px;border-bottom:1px solid #F1F5F9;cursor:pointer;transition:all 0.2s;border-radius:10px}
+        .search-result-item:hover{background:#F8FAFC}
+        .search-result-item img{width:50px;height:50px;object-fit:cover;border-radius:10px}
+        .search-result-item h4{font-size:14px;font-weight:600;margin-bottom:2px}
+        .search-result-item p{font-size:12px;color:var(--gray)}
+        .search-result-item .sr-price{font-size:14px;font-weight:700;color:var(--blue);margin-left:auto}
+        .search-hot{margin-top:30px;text-align:center}
+        .search-hot h3{font-size:13px;color:var(--gray);margin-bottom:12px}
+        .search-hot-tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+        .search-hot-tag{padding:6px 16px;background:#F1F5F9;border-radius:16px;font-size:13px;color:var(--dark);cursor:pointer;transition:all 0.2s}
+        .search-hot-tag:hover{background:rgba(37,99,235,0.08);color:var(--blue)}
+
+        /* CART SIDEBAR */
+        .cart-sidebar{
+            position:fixed;top:0;right:-400px;width:380px;height:100vh;
+            background:white;z-index:2001;display:flex;flex-direction:column;
+            transition:right 0.35s cubic-bezier(0.4,0,0.2,1);
+            box-shadow:-10px 0 40px rgba(0,0,0,0.1);
+        }
+        .cart-sidebar.open{right:0}
+        .cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.3);z-index:2000;opacity:0;visibility:hidden;transition:all 0.3s}
+        .cart-overlay.open{opacity:1;visibility:visible}
+        .cart-header{padding:20px 24px;border-bottom:1px solid #F1F5F9;display:flex;align-items:center;justify-content:space-between}
+        .cart-header h3{font-size:18px;font-weight:800}
+        .cart-close{width:36px;height:36px;border-radius:50%;border:none;background:#F1F5F9;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all 0.2s}
+        .cart-close:hover{background:#E2E8F0}
+        .cart-body{flex:1;overflow-y:auto;padding:20px 24px}
+        .cart-empty{text-align:center;padding:60px 0;color:var(--gray)}
+        .cart-empty svg{width:64px;height:64px;stroke:#D1D5DB;fill:none;stroke-width:1.2;margin-bottom:16px}
+        .cart-item{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid #F1F5F9}
+        .cart-item img{width:70px;height:70px;object-fit:cover;border-radius:12px}
+        .cart-item-info{flex:1}
+        .cart-item-info h4{font-size:14px;font-weight:600;margin-bottom:4px}
+        .cart-item-info .cart-item-price{font-size:15px;font-weight:800;color:var(--blue)}
+        .cart-item-del{background:none;border:none;cursor:pointer;color:var(--gray);font-size:18px;transition:color 0.2s;align-self:center}
+        .cart-item-del:hover{color:var(--blue)}
+        .cart-footer{padding:20px 24px;border-top:1px solid #F1F5F9}
+        .cart-total{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+        .cart-total span{font-size:14px;color:var(--gray)}
+        .cart-total strong{font-size:22px;font-weight:900;color:var(--blue)}
+        .cart-checkout{width:100%;padding:14px;background:linear-gradient(135deg,var(--blue),var(--blue-dark));color:white;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s}
+        .cart-checkout:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(37,99,235,0.3)}
+
+        /* HERO */
+        .hero{margin-top:64px;position:relative;overflow:hidden;background:var(--white);background-image:radial-gradient(circle,#e2e8f0 1.5px,transparent 1.5px);background-size:20px 20px}
+        .hero-slider{display:flex;transition:transform 0.6s cubic-bezier(0.4,0,0.2,1)}
+        .hero-slide{min-width:100%;display:flex;min-height:680px;position:relative}
+        .hero-bg{position:absolute;inset:0;z-index:0}
+        .hero-slide:nth-child(1) .hero-bg{background:transparent}
+        .hero-slide:nth-child(2) .hero-bg{background:transparent}
+        .hero-slide:nth-child(3) .hero-bg{background:transparent}
+        .hero-blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:0.4;z-index:1}
+        .hero-slide:nth-child(1) .hb1{width:300px;height:300px;background:#93C5FD;right:8%;top:-10%}
+        .hero-slide:nth-child(1) .hb2{width:200px;height:200px;background:#BFDBFE;right:25%;bottom:-5%}
+        .hero-slide:nth-child(2) .hb1{width:280px;height:280px;background:#60A5FA;right:12%;top:-8%}
+        .hero-slide:nth-child(2) .hb2{width:180px;height:180px;background:#93C5FD;right:30%;bottom:0}
+        .hero-slide:nth-child(3) .hb1{width:260px;height:260px;background:#3B82F6;right:10%;top:-10%}
+        .hero-slide:nth-child(3) .hb2{width:200px;height:200px;background:#60A5FA;right:22%;bottom:-5%}
+        .hero-text{width:38%;position:relative;z-index:10;display:flex;flex-direction:column;justify-content:center;padding:80px 30px 80px 80px;background:transparent}
+        .hero-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 16px;border-radius:20px;font-size:12px;font-weight:700;margin-bottom:24px;letter-spacing:1px;width:fit-content;animation:fadeUp 0.6s 0.2s both}
+        .hero-slide:nth-child(1) .hero-badge{background:rgba(37,99,235,0.08);color:var(--blue)}
+        .hero-slide:nth-child(2) .hero-badge{background:rgba(29,78,216,0.08);color:var(--blue-dark)}
+        .hero-slide:nth-child(3) .hero-badge{background:rgba(6,214,160,0.08);color:#059669}
+        .hero-title{font-family:'Outfit','Noto Sans SC',sans-serif;font-size:50px;font-weight:900;line-height:1.12;color:var(--dark);margin-bottom:20px;animation:fadeUp 0.7s 0.3s both}
+        .hero-title em{font-style:normal;position:relative;display:inline-block}
+        .hero-title em::after{content:'';position:absolute;bottom:4px;left:0;right:0;height:12px;border-radius:6px;z-index:-1;opacity:0.2}
+        .hero-slide:nth-child(1) em::after{background:var(--blue)}
+        .hero-slide:nth-child(2) em::after{background:var(--blue-dark)}
+        .hero-slide:nth-child(3) em::after{background:var(--accent)}
+        .hero-desc{font-size:15px;color:var(--gray);line-height:1.8;margin-bottom:36px;max-width:380px;animation:fadeUp 0.7s 0.4s both}
+        .hero-cta{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:28px;font-size:14px;font-weight:700;color:white;text-decoration:none;transition:all 0.3s;width:fit-content;animation:fadeUp 0.7s 0.5s both;position:relative;overflow:hidden}
+        .hero-cta::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);transform:translateX(-100%);transition:transform 0.5s}
+        .hero-cta:hover::before{transform:translateX(100%)}
+        .hero-slide:nth-child(1) .hero-cta{background:linear-gradient(135deg,var(--blue),#3B82F6);box-shadow:0 8px 25px rgba(37,99,235,0.3)}
+        .hero-slide:nth-child(2) .hero-cta{background:linear-gradient(135deg,var(--blue-dark),#60A5FA);box-shadow:0 8px 25px rgba(29,78,216,0.3)}
+        .hero-slide:nth-child(3) .hero-cta{background:linear-gradient(135deg,#059669,var(--accent));box-shadow:0 8px 25px rgba(6,214,160,0.3)}
+        .hero-cta:hover{transform:translateY(-2px)}
+        .hero-cta svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+        .hero-img-col{width:100%;position:relative;z-index:5;display:flex;align-items:center;justify-content:center;overflow:visible}
+        .hero-img-col .hero-img{border:2px solid #e2e8f0;border-radius:18px}
+        .hero-img-col::before{content:'';position:absolute;left:-200px;top:0;bottom:0;width:400px;z-index:3;pointer-events:none}
+        .hero-slide:nth-child(1) .hero-img-col::before{background:linear-gradient(90deg,var(--white),rgba(255,255,255,0.8) 40%,rgba(255,255,255,0.3) 70%,transparent)}
+        .hero-slide:nth-child(2) .hero-img-col::before{background:linear-gradient(90deg,var(--white),rgba(255,255,255,0.8) 40%,rgba(255,255,255,0.3) 70%,transparent)}
+        .hero-slide:nth-child(3) .hero-img-col::before{background:linear-gradient(90deg,var(--white),rgba(255,255,255,0.8) 40%,rgba(255,255,255,0.3) 70%,transparent)}
+        .hero-img{height:95%;max-height:660px;width:auto;object-fit:contain;filter:drop-shadow(0 20px 60px rgba(0,0,0,0.12));animation:imgFloat 5s ease-in-out infinite;position:relative;z-index:2}
+        @keyframes imgFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+        .hero-particles{position:absolute;inset:0;z-index:2;pointer-events:none}
+        .particle{position:absolute;border-radius:50%;opacity:0;animation:particleFloat 6s ease-in-out infinite}
+        .particle:nth-child(1){width:8px;height:8px;background:var(--blue);left:30%;top:20%;animation-delay:0s}
+        .particle:nth-child(2){width:6px;height:6px;background:var(--blue-dark);left:50%;top:40%;animation-delay:1s}
+        .particle:nth-child(3){width:10px;height:10px;background:var(--accent);left:20%;top:60%;animation-delay:2s}
+        .particle:nth-child(4){width:5px;height:5px;background:var(--orange);left:60%;top:30%;animation-delay:3s}
+        .particle:nth-child(5){width:7px;height:7px;background:var(--blue);left:40%;top:70%;animation-delay:0.5s}
+        @keyframes particleFloat{0%,100%{opacity:0;transform:translateY(0) scale(0)}20%{opacity:0.6;transform:translateY(-10px) scale(1)}80%{opacity:0.2;transform:translateY(-40px) scale(0.8)}}
+        .hero-nav{position:absolute;bottom:32px;left:80px;z-index:20;display:flex;gap:8px}
+        .hero-nav-dot{width:8px;height:8px;border-radius:4px;border:none;background:rgba(0,0,0,0.1);cursor:pointer;transition:all 0.3s}
+        .hero-nav-dot.active{width:28px;background:var(--blue)}
+        @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+        /* BREADCRUMB */
+        .breadcrumb{padding:12px 56px;font-size:13px;color:var(--gray);background:var(--light);border-bottom:1px solid #F1F5F9}
+        .breadcrumb a{color:var(--gray);text-decoration:none;transition:color 0.2s}
+        .breadcrumb a:hover{color:var(--blue)}
+        .breadcrumb span{margin:0 8px;color:#D1D5DB}
+
+        /* TICKER */
+        .ticker{padding:20px 0;background:var(--white);background-image:radial-gradient(circle,#e2e8f0 1px,transparent 1px);background-size:16px 16px;overflow:hidden;border-top:1px solid #F1F5F9;border-bottom:1px solid #F1F5F9}
+        .ticker-track{display:flex;animation:ticker 30s linear infinite}
+        .ticker-item{flex-shrink:0;padding:0 48px;font-size:13px;font-weight:700;color:#E2E8F0;white-space:nowrap;letter-spacing:4px;text-transform:uppercase;font-family:'Outfit',sans-serif}
+        .ticker-item.accent{color:var(--blue)}
+        @keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+        /* MUSIC */
+        .music-section{background:var(--light);background-image:radial-gradient(circle,#cbd5e1 1.2px,transparent 1.2px);background-size:20px 20px}
+        .tag-purple{background:rgba(139,92,246,0.1);color:#7C3AED}
+        body.dark-theme .tag-purple{background:rgba(139,92,246,0.2);color:#A78BFA}
+        .music-player{max-width:600px;margin:0 auto;background:var(--white);border-radius:20px;padding:28px 32px;display:grid;grid-template-columns:auto 1fr auto;grid-template-rows:auto auto;gap:12px 20px;align-items:center;box-shadow:0 8px 30px rgba(0,0,0,0.06);border:1px solid #f1f5f9;position:relative;overflow:hidden}
+        .music-cover{width:64px;height:64px;border-radius:14px;overflow:hidden;grid-row:span 2}
+        .music-cover img{width:100%;height:100%;object-fit:cover}
+        .music-info{grid-column:2;display:flex;flex-direction:column;gap:2px}
+        .music-label{font-size:10px;font-weight:700;color:var(--blue);letter-spacing:1px;text-transform:uppercase}
+        .music-title{font-size:18px;font-weight:800;color:var(--dark);margin:0}
+        .music-artist{font-size:12px;color:var(--gray);margin:0}
+        .music-controls{grid-column:3;grid-row:span 2}
+        .music-btn{width:52px;height:52px;border-radius:50%;border:none;background:linear-gradient(135deg,var(--blue),var(--blue-dark));color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s;box-shadow:0 4px 15px rgba(37,99,235,0.25)}
+        .music-btn:hover{transform:scale(1.08);box-shadow:0 6px 25px rgba(37,99,235,0.35)}
+        .music-btn svg{width:22px;height:22px}
+        .music-progress-wrap{grid-column:1/-1;display:flex;align-items:center;gap:12px}
+        .music-progress-bar{flex:1;height:4px;border-radius:2px;background:#e2e8f0;cursor:pointer;position:relative}
+        .music-progress-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--blue),var(--blue-dark));width:0%;transition:width 0.1s linear}
+        .music-time{display:flex;justify-content:space-between;font-size:11px;color:var(--gray);font-family:'Outfit',monospace;min-width:80px}
+        .music-wave{position:absolute;right:32px;bottom:40px;display:flex;align-items:flex-end;gap:3px;opacity:0;transition:opacity 0.3s}
+        .music-wave.active{opacity:1}
+        .music-wave span{width:3px;border-radius:2px;background:var(--blue);height:8px;animation:wave 0.8s ease-in-out infinite alternate}
+        .music-wave span:nth-child(2){height:14px;animation-delay:0.1s}
+        .music-wave span:nth-child(3){height:20px;animation-delay:0.2s}
+        .music-wave span:nth-child(4){height:12px;animation-delay:0.3s}
+        .music-wave span:nth-child(5){height:16px;animation-delay:0.15s}
+        @keyframes wave{0%{transform:scaleY(0.5)}100%{transform:scaleY(1)}}
+        body.dark-theme .music-player{background:#1F2937;border-color:#374151}
+        body.dark-theme .music-title{color:white}
+        body.dark-theme .music-progress-bar{background:#374151}
+
+        /* SECTIONS */
+        .section{padding:90px 56px;border-top:2px solid #e2e8f0}
+        .section-head{text-align:center;margin-bottom:56px}
+        .section-head .tag{display:inline-block;padding:4px 14px;border-radius:12px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
+        .tag-blue{background:rgba(37,99,235,0.06);color:var(--blue)}
+        .tag-navy{background:rgba(29,78,216,0.06);color:var(--blue-dark)}
+        .tag-dark{background:rgba(15,23,42,0.06);color:var(--dark)}
+        .tag-green{background:rgba(6,214,160,0.08);color:#059669}
+        .section-head h2{font-size:34px;font-weight:900;color:var(--dark);margin-bottom:8px;font-family:'Outfit','Noto Sans SC',sans-serif}
+        .section-head p{font-size:15px;color:var(--gray)}
+        .section-head .line{width:36px;height:3px;border-radius:2px;margin:14px auto 0;background:linear-gradient(90deg,var(--blue),var(--blue-dark))}
+
+        /* IP GRID */
+        /* Pop art dots pattern for sections */
+        .dots-bg{background-image:radial-gradient(circle,#cbd5e1 1.2px,transparent 1.2px);background-size:20px 20px}
+        .ip-section{background:var(--light);background-image:radial-gradient(circle,#cbd5e1 1.2px,transparent 1.2px);background-size:20px 20px}
+        .ip-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;max-width:1200px;margin:0 auto}
+        .ip-card{background:var(--white);border-radius:18px;overflow:hidden;cursor:pointer;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);box-shadow:0 1px 3px rgba(0,0,0,0.03);position:relative}
+        .ip-card:hover{transform:translateY(-8px);box-shadow:0 20px 50px rgba(0,0,0,0.1)}
+        .ip-card-img-wrap{position:relative;overflow:hidden;background:#F8FAFC;border-radius:16px;padding:8px}
+        .ip-card-img{width:100%;height:auto;max-height:320px;object-fit:contain;display:block;margin:0 auto;transition:transform 0.6s cubic-bezier(0.4,0,0.2,1)}
+        .ip-card:hover .ip-card-img{transform:scale(1.04)}
+        .ip-card-shine{position:absolute;inset:8px;z-index:2;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,0.4) 45%,transparent 50%);transform:translateX(-100%);transition:transform 0.6s;border-radius:12px}
+        .ip-card:hover .ip-card-shine{transform:translateX(100%)}
+        .ip-card-tag{position:absolute;top:20px;left:20px;z-index:3;padding:4px 10px;border-radius:6px;font-size:10px;font-weight:700;color:white;letter-spacing:0.5px}
+        .tag-hot{background:linear-gradient(135deg,#2563EB,#3B82F6)}
+        .tag-new{background:linear-gradient(135deg,#1D4ED8,#60A5FA)}
+        .tag-ltd{background:linear-gradient(135deg,#F59E0B,#FBBF24)}
+        .ip-card-info{padding:16px 18px}
+        .ip-card-info h3{font-size:15px;font-weight:700;color:var(--dark);margin-bottom:3px}
+        .ip-card-info p{font-size:12px;color:var(--gray);margin-bottom:8px}
+        .ip-card-price{font-size:17px;font-weight:800;color:var(--blue)}
+        .ip-card-price small{font-size:12px;font-weight:400;color:var(--gray)}
+
+        /* VIDEO */
+        .video-section{background:var(--white);position:relative;overflow:hidden}
+        .video-section::before{content:'';position:absolute;inset:0;background:url('潮玩角色海报/海报设计5.jpg') center/cover no-repeat;opacity:.35;z-index:0}
+        .video-section>*{position:relative;z-index:1}
+        .player-container{max-width:900px;margin:0 auto;border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.12);background:#000;position:relative}
+        .player-container video{width:100%;display:block;cursor:pointer}
+        .player-controls{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.7));padding:30px 16px 12px;display:flex;flex-direction:column;gap:8px;opacity:0;transition:opacity 0.3s}
+        .player-container:hover .player-controls{opacity:1}
+        .progress-wrap{width:100%;height:4px;background:rgba(255,255,255,0.2);border-radius:2px;cursor:pointer;position:relative;transition:height 0.15s}
+        .progress-wrap:hover{height:6px}
+        .progress-fill{height:100%;background:var(--blue);border-radius:2px;position:relative;width:0%;transition:width 0.1s linear}
+        .progress-fill::after{content:'';position:absolute;right:-5px;top:50%;transform:translateY(-50%);width:12px;height:12px;border-radius:50%;background:white;box-shadow:0 0 6px rgba(0,0,0,0.3);opacity:0;transition:opacity 0.15s}
+        .progress-wrap:hover .progress-fill::after{opacity:1}
+        .controls-row{display:flex;align-items:center;gap:12px}
+        .ctrl-btn{background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center;justify-content:center;transition:transform 0.15s}
+        .ctrl-btn:hover{transform:scale(1.15)}
+        .ctrl-btn svg{width:18px;height:18px;fill:white;stroke:none}
+        .time-display{font-size:12px;color:rgba(255,255,255,0.8);font-family:'Outfit',monospace;white-space:nowrap;min-width:90px}
+        .spacer{flex:1}
+        .volume-group{display:flex;align-items:center;gap:6px}
+        .volume-slider{width:0;overflow:hidden;transition:width 0.25s;-webkit-appearance:none;appearance:none;height:4px;border-radius:2px;background:rgba(255,255,255,0.3);outline:none}
+        .volume-slider::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:white;cursor:pointer}
+        .volume-group:hover .volume-slider{width:70px}
+        .speed-btn{background:rgba(255,255,255,0.15);border:none;color:white;font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px;cursor:pointer;font-family:'Outfit',sans-serif;transition:background 0.2s}
+        .speed-btn:hover{background:rgba(255,255,255,0.3)}
+        .video-caption{text-align:center;margin-top:20px;font-size:15px;color:var(--gray)}
+        .video-caption strong{color:var(--dark);font-weight:700}
+        .big-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.2);cursor:pointer;z-index:5;transition:background 0.3s}
+        .big-play:hover{background:rgba(0,0,0,0.3)}
+        .big-play.hidden{display:none}
+        .big-play-circle{width:72px;height:72px;border-radius:50%;border:3px solid white;background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;transition:all 0.3s}
+        .big-play-circle:hover{background:rgba(255,255,255,0.3);transform:scale(1.08)}
+        .big-play-circle svg{width:28px;height:28px;fill:white;margin-left:4px}
+        .video-fallback{width:100%;aspect-ratio:16/9;background:#F1F5F9;display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:var(--gray);font-size:14px}
+        .video-fallback svg{width:48px;height:48px;stroke:#D1D5DB;fill:none;stroke-width:1.2}
+
+        /* FEATURED */
+        .featured-section{background:var(--light);background-image:radial-gradient(circle,#cbd5e1 1.2px,transparent 1.2px);background-size:20px 20px}
+        .featured-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:1200px;margin:0 auto}
+        .featured-card{border-radius:22px;overflow:hidden;position:relative;height:380px;cursor:pointer;transition:all 0.4s}
+        .featured-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,0.12)}
+        .featured-card:nth-child(1){background:#EFF6FF}
+        .featured-card:nth-child(1)::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(239,246,255,0.92) 20%,rgba(239,246,255,0.6) 50%,rgba(239,246,255,0.1) 80%,transparent);z-index:1}
+        .featured-card:nth-child(2){background:#DBEAFE}
+        .featured-card:nth-child(2)::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(219,234,254,0.92) 20%,rgba(219,234,254,0.6) 50%,rgba(219,234,254,0.1) 80%,transparent);z-index:1}
+        .featured-card-img{position:absolute;inset:0;width:100%;height:100%;z-index:0;object-fit:contain;object-position:center right;filter:drop-shadow(0 15px 40px rgba(0,0,0,0.1));transition:transform 0.5s cubic-bezier(0.4,0,0.2,1)}
+        .featured-card:hover .featured-card-img{transform:scale(1.06) translateY(-6px)}
+        .featured-card-text{position:absolute;left:36px;bottom:36px;z-index:3}
+        .featured-card-text h3{font-size:26px;font-weight:900;color:var(--dark);margin-bottom:6px}
+        .featured-card-text p{font-size:13px;color:var(--gray);margin-bottom:16px}
+        .featured-card-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 22px;border-radius:18px;font-size:13px;font-weight:700;color:white;text-decoration:none;transition:all 0.3s}
+        .featured-card:nth-child(1) .featured-card-btn{background:var(--blue)}
+        .featured-card:nth-child(2) .featured-card-btn{background:var(--blue-dark)}
+        .featured-card-btn:hover{transform:translateX(4px)}
+        .featured-card-btn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+
+        /* ARRIVALS */
+        .arrivals-section{background:var(--white);background-image:radial-gradient(circle,#e2e8f0 1.2px,transparent 1.2px);background-size:20px 20px}
+        .arrivals-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;max-width:1200px;margin:0 auto}
+        .arrival-card{background:var(--white);border-radius:16px;overflow:hidden;cursor:pointer;transition:all 0.35s;border:1px solid #F1F5F9}
+        .arrival-card:hover{transform:translateY(-5px);box-shadow:0 12px 35px rgba(0,0,0,0.08)}
+        .arrival-img-wrap{position:relative;overflow:hidden;background:#F8FAFC;border-radius:16px;padding:8px}
+        .arrival-img{width:100%;height:auto;max-height:260px;object-fit:contain;display:block;margin:0 auto;transition:transform 0.5s}
+        .arrival-card:hover .arrival-img{transform:scale(1.04)}
+        .arrival-tag{position:absolute;top:16px;right:16px;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:700;color:white;z-index:2}
+        .at-new{background:var(--blue)}.at-hot{background:#F59E0B}
+        .arrival-info{padding:14px 16px}
+        .arrival-info h4{font-size:13px;font-weight:600;color:var(--dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:4px}
+        .arrival-price{font-size:16px;font-weight:800;color:var(--blue)}
+        .arrival-price small{font-size:11px;font-weight:400;color:var(--gray)}
+
+        /* BLIND BOX */
+        .blindbox-section{background:var(--white);background-image:radial-gradient(circle,#e2e8f0 1.2px,transparent 1.2px);background-size:20px 20px}
+        .blindbox-grid{display:flex;gap:20px;max-width:1200px;margin:0 auto}
+        .blindbox-card{flex:1;background:#F8FAFC;border:1px solid #F1F5F9;border-radius:22px;padding:30px 20px;text-align:center;transition:all 0.4s;cursor:pointer;position:relative;overflow:hidden}
+        .blindbox-card:hover{background:#F1F5F9;border-color:#E2E8F0;transform:translateY(-8px);box-shadow:0 12px 40px rgba(0,0,0,0.08)}
+        .blindbox-img{width:200px;height:267px;object-fit:contain;margin:0 auto 18px;filter:drop-shadow(0 8px 20px rgba(0,0,0,0.08));transition:transform 0.5s}
+        .blindbox-card:hover .blindbox-img{transform:scale(1.08) rotate(-2deg)}
+        .blindbox-card h3{font-size:17px;font-weight:700;margin-bottom:4px;color:var(--dark)}
+        .blindbox-card .sub{font-size:12px;color:var(--gray);margin-bottom:14px}
+        .blindbox-price{font-size:24px;font-weight:900;color:var(--blue);font-family:'Outfit',sans-serif}
+        .blindbox-price small{font-size:12px;font-weight:400;color:var(--gray)}
+        .blindbox-btn{display:inline-block;margin-top:16px;padding:10px 26px;background:linear-gradient(135deg,var(--blue),var(--blue-dark));border-radius:20px;color:white;font-size:13px;font-weight:700;text-decoration:none;transition:all 0.3s}
+        .blindbox-btn:hover{transform:scale(1.05);box-shadow:0 8px 25px rgba(37,99,235,0.25)}
+
+        /* POSTER GALLERY */
+        .poster-section{background:var(--light);background-image:radial-gradient(circle,#cbd5e1 1.2px,transparent 1.2px);background-size:20px 20px;padding:90px 0}
+        .poster-section .section-head{padding:0 56px}
+        .poster-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding:0 56px}
+        .poster-card{border-radius:18px;overflow:hidden;cursor:pointer;position:relative;transition:all 0.5s cubic-bezier(0.4,0,0.2,1)}
+        .poster-card:hover{transform:translateY(-8px);box-shadow:0 24px 60px rgba(0,0,0,0.15)}
+        .poster-card:nth-child(1){grid-row:span 2}
+        .poster-card:nth-child(5){grid-column:span 2}
+        .poster-card-img{width:100%;height:100%;object-fit:cover;transition:transform 0.6s cubic-bezier(0.4,0,0.2,1)}
+        .poster-card:hover .poster-card-img{transform:scale(1.05)}
+        .poster-card-overlay{position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(0,0,0,0.65));opacity:0;transition:opacity 0.4s;display:flex;align-items:flex-end;padding:24px}
+        .poster-card:hover .poster-card-overlay{opacity:1}
+        .poster-card-info{color:white;transform:translateY(12px);transition:transform 0.4s}
+        .poster-card:hover .poster-card-info{transform:translateY(0)}
+        .poster-card-info h3{font-size:18px;font-weight:800;margin-bottom:4px;font-family:'Outfit','Noto Sans SC',sans-serif}
+        .poster-card-info p{font-size:13px;opacity:0.8}
+        .poster-card::after{content:'';position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.3s;z-index:2}
+        @media(max-width:1024px){.poster-grid{grid-template-columns:repeat(3,1fr);padding:0 24px}.poster-section .section-head{padding:0 24px}.poster-card:nth-child(1){grid-row:span 1}.poster-card:nth-child(5){grid-column:span 1}}
+        @media(max-width:768px){.poster-grid{grid-template-columns:repeat(2,1fr);gap:10px}.poster-card:nth-child(5){grid-column:span 2}}
+
+        /* REVIEWS */
+        .reviews-section{background:var(--light);background-image:radial-gradient(circle,#cbd5e1 1.2px,transparent 1.2px);background-size:20px 20px}
+        .reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1200px;margin:0 auto}
+        .review-card{background:var(--white);border-radius:18px;padding:28px;transition:all 0.3s;border:1px solid #F1F5F9}
+        .review-card:hover{transform:translateY(-4px);box-shadow:0 12px 35px rgba(0,0,0,0.06)}
+        .review-stars{color:#FBBF24;font-size:14px;margin-bottom:12px;letter-spacing:2px}
+        .review-text{font-size:14px;color:var(--gray);line-height:1.7;margin-bottom:16px}
+        .review-user{display:flex;align-items:center;gap:10px}
+        .review-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--blue-dark));display:flex;align-items:center;justify-content:center;color:white;font-size:14px;font-weight:700}
+        .review-name{font-size:13px;font-weight:600;color:var(--dark)}
+        .review-date{font-size:11px;color:var(--gray)}
+
+        /* FAQ */
+        .faq-section{background:var(--white);background-image:radial-gradient(circle,#e2e8f0 1.2px,transparent 1.2px);background-size:20px 20px}
+        .faq-list{max-width:800px;margin:0 auto}
+        .faq-item{border-bottom:1px solid #F1F5F9}
+        .faq-q{width:100%;padding:20px 0;background:none;border:none;text-align:left;font-size:16px;font-weight:600;color:var(--dark);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:color 0.2s}
+        .faq-q:hover{color:var(--blue)}
+        .faq-q::after{content:'+';font-size:22px;font-weight:300;transition:transform 0.3s;color:var(--gray)}
+        .faq-item.open .faq-q::after{transform:rotate(45deg)}
+        .faq-a{max-height:0;overflow:hidden;transition:max-height 0.35s ease,padding 0.35s;font-size:14px;color:var(--gray);line-height:1.7}
+        .faq-item.open .faq-a{max-height:200px;padding-bottom:20px}
+
+        /* NEWSLETTER */
+        .newsletter-section{background:linear-gradient(135deg,#EFF6FF,#DBEAFE);padding:60px 56px;text-align:center}
+        .newsletter-section h2{font-size:28px;font-weight:900;margin-bottom:8px}
+        .newsletter-section p{font-size:14px;color:var(--gray);margin-bottom:24px}
+        .newsletter-form{display:flex;gap:12px;max-width:480px;margin:0 auto}
+        .newsletter-form input{flex:1;height:48px;border:1.5px solid #E2E8F0;border-radius:14px;padding:0 18px;font-size:14px;outline:none;background:white;transition:all 0.2s}
+        .newsletter-form input:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(37,99,235,0.06)}
+        .newsletter-form button{padding:0 28px;background:linear-gradient(135deg,var(--blue),var(--blue-dark));color:white;border:none;border-radius:14px;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;white-space:nowrap}
+        .newsletter-form button:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(37,99,235,0.3)}
+
+        /* BRAND PARTNERS */
+        .partners-section{background:var(--white);padding:50px 56px;border-top:1px solid #F1F5F9;border-bottom:1px solid #F1F5F9}
+        .partners-section h3{text-align:center;font-size:13px;color:var(--gray);font-weight:500;letter-spacing:3px;text-transform:uppercase;margin-bottom:28px}
+        .partners-track{display:flex;justify-content:center;gap:48px;flex-wrap:wrap;align-items:center}
+        .partner-logo{font-family:'Outfit',sans-serif;font-size:20px;font-weight:800;color:#D1D5DB;transition:color 0.3s;cursor:default}
+        .partner-logo:hover{color:var(--blue)}
+
+        /* STORY */
+        .story-section{background:var(--light);background-image:radial-gradient(circle,#cbd5e1 1.2px,transparent 1.2px);background-size:20px 20px}
+        .story-wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+        .story-text h3{font-size:30px;font-weight:900;color:var(--dark);margin-bottom:18px;line-height:1.4}
+        .story-text p{font-size:14px;color:var(--gray);line-height:1.9;margin-bottom:14px}
+        .story-stats{display:flex;gap:40px;margin-top:32px}
+        .stat-num{font-size:32px;font-weight:900;font-family:'Outfit',sans-serif;background:linear-gradient(135deg,var(--blue),var(--blue-dark));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .stat-label{font-size:12px;color:var(--gray);margin-top:4px}
+        .story-visual{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+        .story-img-wrap{border-radius:16px;overflow:hidden;aspect-ratio:auto}
+        .story-img-wrap:first-child{margin-top:32px}
+        .story-img{width:100%;height:auto;max-height:400px;object-fit:contain;transition:transform 0.5s;display:block;margin:0 auto}
+        .story-img-wrap:hover .story-img{transform:scale(1.05)}
+
+        /* MODAL */
+        .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);z-index:3000;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:all 0.3s}
+        .modal-overlay.active{opacity:1;visibility:visible}
+        .modal{background:white;border-radius:24px;max-width:500px;width:90%;transform:scale(0.9) translateY(20px);transition:all 0.4s cubic-bezier(0.4,0,0.2,1);overflow:hidden;position:relative}
+        .modal-overlay.active .modal{transform:scale(1) translateY(0)}
+        .modal-img{width:100%;aspect-ratio:1;object-fit:cover}
+        .modal-body{padding:28px}
+        .modal-body h2{font-size:22px;font-weight:900;margin-bottom:6px}
+        .modal-body .modal-desc{font-size:14px;color:var(--gray);margin-bottom:16px;line-height:1.6}
+        .modal-body .modal-price{font-size:28px;font-weight:900;color:var(--blue);margin-bottom:20px}
+        .modal-actions{display:flex;gap:12px}
+        .modal-btn{flex:1;padding:14px;border-radius:14px;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;border:none}
+        .modal-btn-cart{background:linear-gradient(135deg,var(--blue),var(--blue-dark));color:white}
+        .modal-btn-cart:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(37,99,235,0.3)}
+        .modal-btn-fav{background:#F1F5F9;color:var(--dark);width:50px;flex:none;display:flex;align-items:center;justify-content:center;font-size:18px}
+        .modal-btn-fav:hover{background:#DBEAFE}
+        .modal-btn-fav.liked{background:#DBEAFE;color:var(--blue)}
+        .modal-close{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;border:none;background:rgba(255,255,255,0.9);cursor:pointer;font-size:18px;color:var(--dark);transition:all 0.2s;z-index:2}
+        .modal-close:hover{background:white;transform:rotate(90deg)}
+
+        /* TOAST */
+        .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--dark);color:white;padding:14px 28px;border-radius:14px;font-size:14px;font-weight:600;z-index:4000;box-shadow:0 10px 40px rgba(0,0,0,0.2);transition:transform 0.4s cubic-bezier(0.4,0,0.2,1);display:flex;align-items:center;gap:10px}
+        .toast.show{transform:translateX(-50%) translateY(0)}
+        .toast-icon{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px}
+
+        /* FAB */
+        .fab-group{position:fixed;bottom:90px;right:28px;z-index:998;display:flex;flex-direction:column-reverse;gap:12px;align-items:center}
+        .fab{width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s;box-shadow:0 4px 15px rgba(0,0,0,0.1)}
+        .fab svg{width:18px;height:18px;fill:none;stroke:white;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+        .fab-main{background:linear-gradient(135deg,var(--blue-dark),var(--blue))}
+        .fab-main.active{transform:rotate(45deg)}
+        .fab-sub{background:var(--dark);transform:scale(0);opacity:0}
+        .fab-sub.show{transform:scale(1);opacity:1}
+        .fab-sub:nth-child(2){transition-delay:0.05s}
+        .fab-sub:nth-child(3){transition-delay:0.1s}
+
+        /* FOOTER */
+        .footer{background:#0B1120;color:rgba(255,255,255,0.5);padding:60px 56px 28px}
+        .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+        .footer-brand{display:flex;flex-direction:column;align-items:flex-start}
+        .footer-logo{height:60px;width:auto;object-fit:contain;margin-bottom:16px;display:block}
+        .footer-brand p{font-size:13px;line-height:1.7}
+        .footer-col h4{font-size:14px;font-weight:700;color:rgba(255,255,255,0.8);margin-bottom:14px}
+        .footer-col a{display:block;font-size:13px;color:rgba(255,255,255,0.4);text-decoration:none;margin-bottom:9px;transition:color 0.2s}
+        .footer-col a:hover{color:var(--accent)}
+        .footer-bottom{border-top:1px solid rgba(255,255,255,0.05);padding-top:22px;display:flex;justify-content:space-between;align-items:center}
+        .footer-bottom p{font-size:11px;opacity:0.3}
+        .footer-social{display:flex;gap:10px}
+        .footer-social a{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;text-decoration:none;transition:all 0.3s}
+        .footer-social a:hover{background:linear-gradient(135deg,var(--blue),var(--blue-dark));transform:translateY(-2px)}
+        .footer-social svg{width:14px;height:14px;fill:rgba(255,255,255,0.45)}
+
+        .btt{position:fixed;bottom:28px;right:28px;z-index:999;width:44px;height:44px;border-radius:50%;border:none;background:linear-gradient(135deg,var(--blue),var(--blue-dark));cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:all 0.3s;box-shadow:0 6px 20px rgba(37,99,235,0.25)}
+        .btt.show{opacity:1;visibility:visible}
+        .btt:hover{transform:translateY(-3px)}
+        .btt svg{width:18px;height:18px;fill:none;stroke:white;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+
+        /* PAGE TRANSITION */
+        .page-transition{position:fixed;inset:0;background:white;z-index:99998;transform:scaleY(0);transform-origin:bottom;pointer-events:none}
+        .page-transition.in{animation:pageIn 0.4s ease forwards}
+        .page-transition.out{animation:pageOut 0.4s ease forwards}
+        @keyframes pageIn{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+        @keyframes pageOut{from{transform:scaleY(1)}to{transform:scaleY(0)}}
+
+        .reveal{opacity:0;transform:translateY(30px);transition:all 0.6s cubic-bezier(0.4,0,0.2,1)}
+        .reveal.visible{opacity:1;transform:translateY(0)}
+        .reveal-left{opacity:0;transform:translateX(-30px);transition:all 0.6s cubic-bezier(0.4,0,0.2,1)}
+        .reveal-left.visible{opacity:1;transform:translateX(0)}
+        .reveal-right{opacity:0;transform:translateX(30px);transition:all 0.6s cubic-bezier(0.4,0,0.2,1)}
+        .reveal-right.visible{opacity:1;transform:translateX(0)}
+
+        /* DARK THEME */
+        body.dark-theme{background:#111827;color:#E5E7EB}
+        body.dark-theme .nav{background:rgba(17,24,39,0.9);border-color:rgba(255,255,255,0.05)}
+        body.dark-theme .nav.scrolled{background:rgba(17,24,39,0.95)}
+        body.dark-theme .hamburger span{color:white;stroke:white}
+        body.dark-theme .hamburger span{background:white}
+        body.dark-theme .nav-menu a{color:#9CA3AF}
+        body.dark-theme .nav-menu a:hover,body.dark-theme .nav-menu a.active{color:white}
+        body.dark-theme .nav-search{background:#1F2937;border-color:#374151;color:white}
+        body.dark-theme .nav-search:focus{background:#1F2937}
+        body.dark-theme .nav-btn svg{stroke:white}
+        body.dark-theme .nav-user{border-color:#374151;color:#9CA3AF}
+        body.dark-theme .nav-user:hover{border-color:var(--blue);color:var(--blue)}
+        body.dark-theme .ip-section,body.dark-theme .featured-section,body.dark-theme .arrivals-section,body.dark-theme .blindbox-section,body.dark-theme .story-section,body.dark-theme .reviews-section,body.dark-theme .faq-section,body.dark-theme .poster-section{background:#111827}
+        body.dark-theme .ip-section,body.dark-theme .featured-section,body.dark-theme .poster-section,body.dark-theme .reviews-section,body.dark-theme .story-section{background-image:radial-gradient(circle,#1f2937 1.2px,transparent 1.2px)}
+        body.dark-theme .arrivals-section,body.dark-theme .blindbox-section,body.dark-theme .faq-section{background-image:radial-gradient(circle,#1f2937 1.2px,transparent 1.2px)}
+        body.dark-theme .ip-card,body.dark-theme .arrival-card,body.dark-theme .review-card,body.dark-theme .blindbox-card{background:#1F2937;border-color:#374151}
+        body.dark-theme .ip-card-info h3,body.dark-theme .arrival-info h4,body.dark-theme .story-text h3,body.dark-theme .section-head h2,body.dark-theme .review-name,body.dark-theme .faq-q{color:white}
+        body.dark-theme .section-head p,body.dark-theme .ip-card-info p,body.dark-theme .blindbox-card .sub,body.dark-theme .blindbox-price small,body.dark-theme .review-date{color:#9CA3AF}
+        body.dark-theme .featured-card-text h3{color:white}
+        body.dark-theme .blindbox-card h3{color:white}
+        body.dark-theme .section{border-top-color:#374151}
+        body.dark-theme .ticker{background:#111827;background-image:radial-gradient(circle,#1f2937 1px,transparent 1px);background-size:16px 16px;border-color:#1F2937}
+body.dark-theme .hero{background:#111827;background-image:radial-gradient(circle,#1f2937 1.5px,transparent 1.5px);background-size:20px 20px}
+body.dark-theme .hero-img-col .hero-img{border-color:#374151}
+body.dark-theme .hero-slide:nth-child(1) .hero-img-col::before,
+body.dark-theme .hero-slide:nth-child(2) .hero-img-col::before,
+body.dark-theme .hero-slide:nth-child(3) .hero-img-col::before{background:linear-gradient(90deg,#111827,rgba(17,24,39,0.8) 40%,rgba(17,24,39,0.3) 70%,transparent)}
+        body.dark-theme .mobile-menu{background:#1F2937}
+        body.dark-theme .mobile-menu a{color:#E5E7EB;border-color:#374151}
+        body.dark-theme .search-overlay{background:rgba(17,24,39,0.97)}
+        body.dark-theme .search-overlay input{color:white;border-color:var(--blue)}
+        body.dark-theme .search-result-item{border-color:#374151}
+        body.dark-theme .search-result-item:hover{background:#1F2937}
+        body.dark-theme .search-result-item h4{color:white}
+        body.dark-theme .search-hot-tag{background:#374151;color:#E5E7EB}
+        body.dark-theme .cart-sidebar{background:#1F2937}
+        body.dark-theme .cart-header{border-color:#374151}
+        body.dark-theme .cart-header h3{color:white}
+        body.dark-theme .cart-close{background:#374151;color:white}
+        body.dark-theme .cart-item{border-color:#374151}
+        body.dark-theme .cart-item-info h4{color:white}
+        body.dark-theme .cart-footer{border-color:#374151}
+        body.dark-theme .modal{background:#1F2937}
+        body.dark-theme .modal-body h2{color:white}
+        body.dark-theme .modal-close{background:rgba(31,41,55,0.9);color:white}
+        body.dark-theme .modal-btn-fav{background:#374151;color:white}
+        body.dark-theme .toast{background:white;color:var(--dark)}
+        body.dark-theme .newsletter-section{background:#1F2937}
+        body.dark-theme .newsletter-section h2{color:white}
+        body.dark-theme .newsletter-form input{background:#111827;border-color:#374151;color:white}
+        body.dark-theme .partners-section{background:#111827;border-color:#1F2937}
+        body.dark-theme .breadcrumb{background:#1F2937;border-color:#374151}
+        body.dark-theme .footer{background:#060B18}
+
+        @media(max-width:1024px){
+            .nav{padding:0 24px}.section{padding:60px 24px}
+            .hero-text{padding:40px 30px 40px 40px;width:42%}
+            .hero-img-col{width:58%;margin-left:-40px}
+            .hero-title{font-size:38px}
+            .ip-grid{grid-template-columns:repeat(2,1fr)}
+            .arrivals-grid{grid-template-columns:repeat(3,1fr)}
+            .blindbox-grid{flex-direction:column}
+            .story-wrap{grid-template-columns:1fr}
+            .footer-grid{grid-template-columns:1fr 1fr}
+            .reviews-grid{grid-template-columns:repeat(2,1fr)}
+            .breadcrumb{padding:12px 24px}
+            .partners-section{padding:40px 24px}
+            .newsletter-section{padding:40px 24px}
+        }
+        @media(max-width:768px){
+            .nav{padding:0 16px}
+            .nav-menu{display:none}
+            .nav-search{display:none}
+            .nav-user{display:none}
+            .hamburger{display:flex}
+            .hero-slide{flex-direction:column;min-height:auto}
+            .hero-text{width:100%!important;padding:40px 24px;text-align:center}
+            .hero-img-col{margin-left:0}
+            .hero-title{font-size:30px}.hero-desc{max-width:100%}.hero-cta{margin:0 auto}
+            .hero-img-col{width:100%;padding:0 24px 20px}
+            .hero-img{max-height:360px}
+            .hero-nav{left:24px}
+            .ip-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+            .featured-grid{grid-template-columns:1fr}
+            .arrivals-grid{grid-template-columns:repeat(2,1fr)}
+            .footer-grid{grid-template-columns:1fr}
+            .reviews-grid{grid-template-columns:1fr}
+            .cart-sidebar{width:100%;right:-100%}
+            .newsletter-form{flex-direction:column}
+            .breadcrumb{display:none}
+        }
+    </style>
+</head>
+<body>
+
+<!-- LOADING SCREEN -->
+<div class="loader" id="loader"><div class="loader-spinner"></div><img class="loader-logo" src="公司logo/xingyao-logo.png" alt="MOJO PLANET"></div>
+<div class="page-transition" id="pageTransition"></div>
+<div class="cursor-glow" id="cursorGlow"></div>
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- NAV -->
+<nav class="nav" id="nav" role="navigation" aria-label="主导航">
+    <a class="nav-logo" href="#" aria-label="MOJO PLANET 首页"><img class="nav-logo-img" src="公司logo/xingyao-logo.png" alt="MOJO PLANET"></a>
+    <ul class="nav-menu">
+        <li><a href="#" class="active">首页</a></li>
+        <li><a href="#ip">全部IP</a></li>
+        <li><a href="#series">系列</a></li>
+        <li><a href="#video">演示</a></li>
+        <li><a href="#blindbox">盲盒</a></li>
+        <li><a href="#posters">海报</a></li>
+        <li><a href="#story">关于</a></li>
+    </ul>
+    <div class="nav-actions">
+        <input type="text" class="nav-search" placeholder="搜索潮玩角色..." aria-label="搜索" id="navSearchInput">
+        <button class="nav-btn" id="cartBtn" aria-label="购物车"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span class="nav-badge" id="cartBadge">0</span></button>
+        <a href="#" class="nav-user" id="loginBtn">登录</a>
+        <button class="hamburger" id="hamburger" aria-label="菜单"><span></span><span></span><span></span></button>
+    </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-overlay" id="mobileOverlay"></div>
+<div class="mobile-menu" id="mobileMenu">
+    <a href="#">首页</a><a href="#ip">全部IP</a><a href="#series">系列</a><a href="#video">演示</a><a href="#blindbox">盲盒</a><a href="#posters">海报</a><a href="#reviews">评价</a><a href="#faq">FAQ</a><a href="#story">关于</a>
+</div>
+
+<!-- SEARCH OVERLAY -->
+<div class="search-overlay" id="searchOverlay" role="search">
+    <button class="search-overlay-close" id="searchClose" aria-label="关闭搜索">&times;</button>
+    <input type="text" id="searchInput" placeholder="搜索潮玩角色、系列..." autofocus>
+    <div class="search-results" id="searchResults"></div>
+    <div class="search-hot" id="searchHot">
+        <h3>热门搜索</h3>
+        <div class="search-hot-tags">
+            <span class="search-hot-tag">王子</span><span class="search-hot-tag">国风</span><span class="search-hot-tag">盲盒</span><span class="search-hot-tag">限定</span><span class="search-hot-tag">森林少女</span>
+        </div>
+    </div>
+</div>
+
+<!-- CART SIDEBAR -->
+<div class="cart-overlay" id="cartOverlay"></div>
+<div class="cart-sidebar" id="cartSidebar" role="dialog" aria-label="购物车">
+    <div class="cart-header"><h3>购物车</h3><button class="cart-close" id="cartClose" aria-label="关闭">&times;</button></div>
+    <div class="cart-body" id="cartBody">
+        <div class="cart-empty" id="cartEmpty">
+            <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+            <p>购物车是空的</p>
+        </div>
+    </div>
+    <div class="cart-footer" id="cartFooter" style="display:none">
+        <div class="cart-total"><span>合计</span><strong id="cartTotal">¥0</strong></div>
+        <button class="cart-checkout">去结算</button>
+    </div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+    <div class="modal" role="dialog" aria-label="商品详情">
+        <button class="modal-close" id="modalClose" aria-label="关闭">&times;</button>
+        <img src="" alt="" class="modal-img" id="modalImg" loading="lazy">
+        <div class="modal-body">
+            <h2 id="modalTitle"></h2>
+            <p class="modal-desc" id="modalDesc"></p>
+            <div class="modal-price" id="modalPrice"></div>
+            <div class="modal-actions">
+                <button class="modal-btn modal-btn-cart" id="modalCart">加入购物车</button>
+                <button class="modal-btn modal-btn-fav" id="modalFav" aria-label="收藏">&#10084;</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><span class="toast-icon" style="background:var(--accent)">&#10003;</span><span id="toastText"></span></div>
+
+<!-- FAB -->
+<div class="fab-group">
+    <button class="fab fab-main" id="fabMain" aria-label="菜单"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+    <button class="fab fab-sub" id="fabTop" title="回到顶部"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+    <button class="fab fab-sub" id="fabTheme" title="切换主题"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg></button>
+</div>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb" aria-label="面包屑导航"><a href="#">首页</a><span>/</span><span>全部商品</span></div>
+
+<!-- HERO -->
+<section class="hero" aria-label="轮播">
+    <div class="hero-slider" id="heroSlider">
+        <div class="hero-slide"><div class="hero-bg"></div><div class="hero-blob hb1"></div><div class="hero-blob hb2"></div>
+            <div class="hero-img-col"><div class="hero-particles"><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div></div><img src="潮玩角色海报/王子.jpg" alt="星梦王子" class="hero-img" loading="eager"></div>
+        </div>
+        <div class="hero-slide"><div class="hero-bg"></div><div class="hero-blob hb1"></div><div class="hero-blob hb2"></div>
+            <div class="hero-img-col"><div class="hero-particles"><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div></div><img src="潮玩角色海报/国风少女.jpg" alt="东方绮梦" class="hero-img" loading="eager"></div>
+        </div>
+        <div class="hero-slide"><div class="hero-bg"></div><div class="hero-blob hb1"></div><div class="hero-blob hb2"></div>
+            <div class="hero-img-col"><div class="hero-particles"><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div></div><img src="潮玩角色海报/森林少女.jpg" alt="森林少女" class="hero-img" loading="eager"></div>
+        </div>
+    </div>
+    <div class="hero-nav"><button class="hero-nav-dot active" data-index="0"></button><button class="hero-nav-dot" data-index="1"></button><button class="hero-nav-dot" data-index="2"></button></div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker" aria-hidden="true"><div class="ticker-track"><span class="ticker-item accent">MOJO PLANET</span><span class="ticker-item">DESIGNER TOY</span><span class="ticker-item accent">潮玩星球</span><span class="ticker-item">奇妙冒险</span><span class="ticker-item accent">COLLECTIBLE</span><span class="ticker-item">限定发售</span><span class="ticker-item accent">MOJO PLANET</span><span class="ticker-item">DESIGNER TOY</span><span class="ticker-item accent">潮玩星球</span><span class="ticker-item">奇妙冒险</span><span class="ticker-item accent">COLLECTIBLE</span><span class="ticker-item">限定发售</span></div></div>
+
+<!-- VIDEO -->
+<section class="section video-section" id="video" aria-label="角色演示">
+    <div class="section-head reveal"><div class="tag tag-green">SHOWCASE</div><h2>角色演示</h2><p>沉浸式体验潮玩角色的魅力</p><div class="line"></div></div>
+    <div class="player-container reveal" id="playerContainer">
+        <video id="showcaseVideo" preload="metadata" playsinline aria-label="森林少女演示视频"><source src="潮玩视频/森灵少女.mp4" type="video/mp4"></video>
+        <div class="video-fallback" id="videoFallback"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><p>视频加载失败，请检查文件路径</p></div>
+        <div class="big-play" id="bigPlay"><div class="big-play-circle"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
+        <div class="player-controls">
+            <div class="progress-wrap" id="progressWrap"><div class="progress-fill" id="progressFill"></div></div>
+            <div class="controls-row">
+                <button class="ctrl-btn" id="playPauseBtn" aria-label="播放/暂停"><svg id="playIcon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg><svg id="pauseIcon" viewBox="0 0 24 24" style="display:none"><rect x="5" y="3" width="4" height="18"/><rect x="15" y="3" width="4" height="18"/></svg></button>
+                <span class="time-display" id="timeDisplay">0:00 / 0:00</span>
+                <div class="spacer"></div>
+                <button class="speed-btn" id="speedBtn" title="播放速度">1x</button>
+                <div class="volume-group"><button class="ctrl-btn" id="muteBtn" aria-label="静音"><svg id="volIcon" viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 010 7.07" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"/><path d="M19.07 4.93a10 10 0 010 14.14" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg><svg id="muteIcon" viewBox="0 0 24 24" style="display:none"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="17" y1="9" x2="23" y2="15" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></button><input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.05" value="0.7" aria-label="音量"></div>
+                <button class="ctrl-btn" id="fullscreenBtn" aria-label="全屏"><svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
+        </div>
+    </div>
+    <p class="video-caption reveal"><strong>森林少女</strong> — 奇幻森林系列 · 角色演示视频</p>
+</section>
+
+<!-- TICKER 2 -->
+<div class="ticker" aria-hidden="true"><div class="ticker-track"><span class="ticker-item accent">MOJO PLANET</span><span class="ticker-item">DESIGNER TOY</span><span class="ticker-item accent">潮玩星球</span><span class="ticker-item">奇妙冒险</span><span class="ticker-item accent">COLLECTIBLE</span><span class="ticker-item">限定发售</span><span class="ticker-item accent">MOJO PLANET</span><span class="ticker-item">DESIGNER TOY</span><span class="ticker-item accent">潮玩星球</span><span class="ticker-item">奇妙冒险</span><span class="ticker-item accent">COLLECTIBLE</span><span class="ticker-item">限定发售</span></div></div>
+
+<!-- MUSIC -->
+<section class="section music-section" id="music" aria-label="角色歌曲">
+    <div class="section-head reveal"><div class="tag tag-purple">CHARACTER SONG</div><h2>角色歌曲</h2><p>用音乐聆听角色的故事</p><div class="line"></div></div>
+    <div class="music-player reveal">
+        <div class="music-cover"><img src="潮玩角色海报/海报设计5.jpg" alt="Ella角色歌"></div>
+        <div class="music-info">
+            <span class="music-label">角色主题曲</span>
+            <h3 class="music-title">Ella角色歌</h3>
+            <p class="music-artist">MOJO PLANET · 星梦王子系列</p>
+        </div>
+        <div class="music-controls">
+            <button class="music-btn" id="musicPlayBtn" aria-label="播放"><svg id="musicPlayIcon" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3" fill="currentColor"/></svg><svg id="musicPauseIcon" viewBox="0 0 24 24" style="display:none"><rect x="5" y="3" width="5" height="18" rx="1" fill="currentColor"/><rect x="14" y="3" width="5" height="18" rx="1" fill="currentColor"/></svg></button>
+        </div>
+        <div class="music-progress-wrap">
+            <div class="music-progress-bar" id="musicProgressBar"><div class="music-progress-fill" id="musicProgressFill"></div></div>
+            <div class="music-time"><span id="musicCurrent">0:00</span><span id="musicDuration">0:00</span></div>
+        </div>
+        <div class="music-wave" id="musicWave"><span></span><span></span><span></span><span></span><span></span></div>
+        <audio id="musicAudio" preload="metadata" src="角色歌曲/Ella角色歌.mp3"></audio>
+    </div>
+</section>
+
+<!-- IP GRID -->
+<section class="section ip-section" id="ip" aria-label="IP角色">
+    <div class="section-head reveal"><div class="tag tag-blue">IP COLLECTION</div><h2>IP 角色宇宙</h2><p>每一个角色，都有属于自己的故事</p><div class="line"></div></div>
+    <div class="ip-grid">
+        <div class="ip-card reveal" data-name="星梦王子"><div class="ip-card-img-wrap"><span class="ip-card-tag tag-hot">热门</span><div class="ip-card-shine"></div><img src="潮玩角色设定/王子.png" alt="星梦王子" class="ip-card-img" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 300 400%22><rect fill=%22%23f1f5f9%22 width=%22300%22 height=%22400%22/><text x=%22150%22 y=%22200%22 text-anchor=%22middle%22 fill=%22%23cbd5e1%22 font-size=%2214%22>图片加载失败</text></svg>'"></div><div class="ip-card-info"><h3>星梦王子</h3><p>来自银河深处的浪漫王子</p><div class="ip-card-price">¥399 <small>/个</small></div></div></div>
+        <div class="ip-card reveal" data-name="东方绮梦"><div class="ip-card-img-wrap"><span class="ip-card-tag tag-new">新品</span><div class="ip-card-shine"></div><img src="潮玩角色设定/国风.png" alt="东方绮梦" class="ip-card-img" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 300 400%22><rect fill=%22%23f1f5f9%22 width=%22300%22 height=%22400%22/><text x=%22150%22 y=%22200%22 text-anchor=%22middle%22 fill=%22%23cbd5e1%22 font-size=%2214%22>图片加载失败</text></svg>'"></div><div class="ip-card-info"><h3>东方绮梦</h3><p>古典与现代的完美融合</p><div class="ip-card-price">¥459 <small>/个</small></div></div></div>
+        <div class="ip-card reveal" data-name="赤瞳精灵"><div class="ip-card-img-wrap"><span class="ip-card-tag tag-ltd">限定</span><div class="ip-card-shine"></div><img src="潮玩角色设定/萌系.png" alt="赤瞳精灵" class="ip-card-img" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 300 400%22><rect fill=%22%23f1f5f9%22 width=%22300%22 height=%22400%22/><text x=%22150%22 y=%22200%22 text-anchor=%22middle%22 fill=%22%23cbd5e1%22 font-size=%2214%22>图片加载失败</text></svg>'"></div><div class="ip-card-info"><h3>赤瞳精灵</h3><p>神秘的暗夜守护者</p><div class="ip-card-price">¥369 <small>/个</small></div></div></div>
+        <div class="ip-card reveal" data-name="汉韵佳人"><div class="ip-card-img-wrap"><span class="ip-card-tag tag-hot">热门</span><div class="ip-card-shine"></div><img src="潮玩角色设定/传统汉服.png" alt="汉韵佳人" class="ip-card-img" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 300 400%22><rect fill=%22%23f1f5f9%22 width=%22300%22 height=%22400%22/><text x=%22150%22 y=%22200%22 text-anchor=%22middle%22 fill=%22%23cbd5e1%22 font-size=%2214%22>图片加载失败</text></svg>'"></div><div class="ip-card-info"><h3>汉韵佳人</h3><p>千年华裳的现代演绎</p><div class="ip-card-price">¥429 <small>/个</small></div></div></div>
+    </div>
+</section>
+
+<!-- FEATURED -->
+<section class="section featured-section" id="series" aria-label="精选系列">
+    <div class="section-head reveal"><div class="tag tag-navy">SERIES</div><h2>精选系列</h2><p>探索最受欢迎的潮玩系列</p><div class="line"></div></div>
+    <div class="featured-grid">
+        <div class="featured-card reveal-left"><img src="潮玩角色海报/云朵.jpg" alt="云朵" class="featured-card-img" loading="lazy"><div class="featured-card-text"><h3>甜心宝贝系列</h3><p>软萌可爱的卡通角色，治愈你的每一天</p><a href="#" class="featured-card-btn">查看详情 <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div></div>
+        <div class="featured-card reveal-right"><img src="潮玩角色海报/云朵的小伙伴.jpg" alt="云朵的小伙伴" class="featured-card-img" loading="lazy"><div class="featured-card-text"><h3>云端奇遇系列</h3><p>软绵绵的云朵精灵，带你飞向梦幻世界</p><a href="#" class="featured-card-btn">查看详情 <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div></div>
+    </div>
+</section>
+
+<!-- ARRIVALS -->
+<section class="section arrivals-section" aria-label="新品">
+    <div class="section-head reveal"><div class="tag tag-dark">NEW ARRIVALS</div><h2>新品速递</h2><p>最新上架的潮流单品</p><div class="line"></div></div>
+    <div class="arrivals-grid">
+        <div class="arrival-card reveal"><div class="arrival-img-wrap"><img src="潮玩角色设定/王子.png" alt="星梦王子" class="arrival-img" loading="lazy"><span class="arrival-tag at-new">NEW</span></div><div class="arrival-info"><h4>星梦王子 · 银河限定</h4><div class="arrival-price">¥399 <small>/个</small></div></div></div>
+        <div class="arrival-card reveal"><div class="arrival-img-wrap"><img src="潮玩角色设定/国风.png" alt="东方绮梦" class="arrival-img" loading="lazy"><span class="arrival-tag at-new">NEW</span></div><div class="arrival-info"><h4>东方绮梦 · 国风典藏</h4><div class="arrival-price">¥459 <small>/个</small></div></div></div>
+        <div class="arrival-card reveal"><div class="arrival-img-wrap"><img src="潮玩角色设定/萌系.png" alt="赤瞳精灵" class="arrival-img" loading="lazy"></div><div class="arrival-info"><h4>赤瞳精灵 · 暗夜款</h4><div class="arrival-price">¥369 <small>/个</small></div></div></div>
+        <div class="arrival-card reveal"><div class="arrival-img-wrap"><img src="潮玩角色设定/传统汉服.png" alt="汉韵佳人" class="arrival-img" loading="lazy"></div><div class="arrival-info"><h4>汉韵佳人 · 春日限定</h4><div class="arrival-price">¥429 <small>/个</small></div></div></div>
+        <div class="arrival-card reveal"><div class="arrival-img-wrap"><img src="潮玩角色设定/森林少女.png" alt="森林少女" class="arrival-img" loading="lazy"><span class="arrival-tag at-hot">HOT</span></div><div class="arrival-info"><h4>森林少女 · 精灵款</h4><div class="arrival-price">¥389 <small>/个</small></div></div></div>
+    </div>
+</section>
+
+<!-- BLIND BOX -->
+<section class="section blindbox-section" id="blindbox" aria-label="盲盒">
+    <div class="section-head reveal"><div class="tag tag-blue">BLIND BOX</div><h2>盲盒探索</h2><p>每一次拆盒，都是一次惊喜的冒险</p><div class="line"></div></div>
+    <div class="blindbox-grid">
+        <div class="blindbox-card reveal"><img src="潮玩盲盒/盲盒01.png" alt="甜心宝贝" class="blindbox-img" loading="lazy"><h3>甜心宝贝盲盒</h3><p class="sub">甜心宝贝系列 · 第2弹</p><div class="blindbox-price">¥69 <small>/个</small></div><a href="#" class="blindbox-btn">立即抽盒</a></div>
+        <div class="blindbox-card reveal"><img src="潮玩盲盒/盲盒02.png" alt="小云仔" class="blindbox-img" loading="lazy"><h3>小云仔盲盒</h3><p class="sub">云端奇遇系列 · 第1弹</p><div class="blindbox-price">¥59 <small>/个</small></div><a href="#" class="blindbox-btn">立即抽盒</a></div>
+        <div class="blindbox-card reveal"><img src="潮玩盲盒/盲盒03.png" alt="暗夜精灵" class="blindbox-img" loading="lazy"><h3>暗夜精灵盲盒</h3><p class="sub">赤瞳精灵系列 · 限定版</p><div class="blindbox-price">¥79 <small>/个</small></div><a href="#" class="blindbox-btn">立即抽盒</a></div>
+        <div class="blindbox-card reveal"><img src="潮玩盲盒/盲盒04.png" alt="森林物语" class="blindbox-img" loading="lazy"><h3>森林物语盲盒</h3><p class="sub">森林少女系列 · 第3弹</p><div class="blindbox-price">¥69 <small>/个</small></div><a href="#" class="blindbox-btn">立即抽盒</a></div>
+    </div>
+</section>
+
+<!-- POSTER GALLERY -->
+<section class="section poster-section" id="posters" aria-label="角色海报">
+    <div class="section-head reveal"><div class="tag tag-navy">GALLERY</div><h2>角色海报</h2><p>每一张海报，都是一个故事的开始</p><div class="line"></div></div>
+    <div class="poster-grid">
+        <div class="poster-card reveal"><img src="潮玩角色海报/王子.jpg" alt="王子海报" class="poster-card-img" loading="lazy"><div class="poster-card-overlay"><div class="poster-card-info"><h3>星梦王子</h3><p>银河深处的浪漫传说</p></div></div></div>
+        <div class="poster-card reveal"><img src="潮玩角色海报/森林少女.jpg" alt="森林少女海报" class="poster-card-img" loading="lazy"><div class="poster-card-overlay"><div class="poster-card-info"><h3>森林少女</h3><p>奇幻森林的守护精灵</p></div></div></div>
+        <div class="poster-card reveal"><img src="潮玩角色海报/小仙女.jpg" alt="小仙女海报" class="poster-card-img" loading="lazy"><div class="poster-card-overlay"><div class="poster-card-info"><h3>小仙女</h3><p>云端之上的梦幻仙子</p></div></div></div>
+        <div class="poster-card reveal"><img src="潮玩角色海报/治愈.jpg" alt="治愈海报" class="poster-card-img" loading="lazy"><div class="poster-card-overlay"><div class="poster-card-info"><h3>治愈时光</h3><p>温暖每一个日常瞬间</p></div></div></div>
+        <div class="poster-card reveal"><img src="潮玩角色海报/国风少女.jpg" alt="国风少女海报" class="poster-card-img" loading="lazy"><div class="poster-card-overlay"><div class="poster-card-info"><h3>国风少女</h3><p>东方美学的现代演绎</p></div></div></div>
+        <div class="poster-card reveal"><img src="潮玩角色海报/云朵.jpg" alt="云朵海报" class="poster-card-img" loading="lazy"><div class="poster-card-overlay"><div class="poster-card-info"><h3>云朵</h3><p>软绵绵的天空旅者</p></div></div></div>
+        <div class="poster-card reveal"><img src="潮玩角色海报/云朵的小伙伴.jpg" alt="云朵的小伙伴海报" class="poster-card-img" loading="lazy"><div class="poster-card-overlay"><div class="poster-card-info"><h3>云朵的小伙伴</h3><p>一起飞翔的快乐伙伴</p></div></div></div>
+    </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="section reviews-section" id="reviews" aria-label="用户评价">
+    <div class="section-head reveal"><div class="tag tag-navy">REVIEWS</div><h2>用户评价</h2><p>来自真实收藏家的声音</p><div class="line"></div></div>
+    <div class="reviews-grid">
+        <div class="review-card reveal"><div class="review-stars">★★★★★</div><p class="review-text">王子的手感真的太好了，细节做得很精致，放在桌上每天都要看好几次！包装也很用心，物流超快。</p><div class="review-user"><div class="review-avatar">林</div><div><div class="review-name">林小萌</div><div class="review-date">2026-04-28</div></div></div></div>
+        <div class="review-card reveal"><div class="review-stars">★★★★★</div><p class="review-text">国风系列简直绝了！传统纹样做得很考究，颜色也很正。已经集齐了整套，期待出更多国风角色。</p><div class="review-user"><div class="review-avatar">王</div><div><div class="review-name">王大锤</div><div class="review-date">2026-04-25</div></div></div></div>
+        <div class="review-card reveal"><div class="review-stars">★★★★☆</div><p class="review-text">盲盒抽到了隐藏款森林少女！太开心了！做工比想象中好很多，颜色很治愈。就是有点小贵，不过值了。</p><div class="review-user"><div class="review-avatar">张</div><div><div class="review-name">张漂亮</div><div class="review-date">2026-04-20</div></div></div></div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section class="section faq-section" id="faq" aria-label="常见问题">
+    <div class="section-head reveal"><div class="tag tag-dark">FAQ</div><h2>常见问题</h2><p>有疑问？这里可能有你要的答案</p><div class="line"></div></div>
+    <div class="faq-list">
+        <div class="faq-item reveal"><button class="faq-q">如何购买 MOJO PLANET 的潮玩？</button><div class="faq-a">您可以通过我们的官网直接下单购买，也可以在各大电商平台搜索"MOJO PLANET"找到我们的官方旗舰店。盲盒产品支持线上抽盒和线下门店购买。</div></div>
+        <div class="faq-item reveal"><button class="faq-q">盲盒可以指定款式吗？</button><div class="faq-a">盲盒的特色就在于未知的惊喜，因此无法指定款式。但每个系列都有明确的概率公示，隐藏款的概率通常为 1/144。如果您想要特定款式，可以选择购买整盒或在二手市场寻找。</div></div>
+        <div class="faq-item reveal"><button class="faq-q">收到的商品有质量问题怎么办？</button><div class="faq-a">如果您收到的商品存在质量问题，请在收到后 7 天内联系我们的客服，提供照片或视频证据，我们将为您安排换货或退款。我们对所有产品提供质量保证。</div></div>
+        <div class="faq-item reveal"><button class="faq-q">是否支持海外购买？</button><div class="faq-a">目前我们支持中国大陆、港澳台地区配送。海外用户可以通过我们的全球站（global.mojo-planet.com）下单，支持全球 50+ 国家和地区配送。</div></div>
+        <div class="faq-item reveal"><button class="faq-q">如何成为 MOJO PLANET 的合作设计师？</button><div class="faq-a">我们非常欢迎有才华的设计师加入！请将您的作品集和个人介绍发送至 artist@mojo-planet.com，我们的设计团队会在 5 个工作日内回复您。</div></div>
+    </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter-section" aria-label="订阅">
+    <h2>订阅 MOJO PLANET</h2>
+    <p>第一时间获取新品发售、限定活动和独家优惠信息</p>
+    <form class="newsletter-form" id="newsletterForm">
+        <input type="email" placeholder="输入您的邮箱地址" required aria-label="邮箱地址">
+        <button type="submit">订阅</button>
+    </form>
+</section>
+
+<!-- BRAND PARTNERS -->
+<section class="partners-section" aria-label="合作伙伴">
+    <h3>合作品牌</h3>
+    <div class="partners-track">
+        <span class="partner-logo">DISNEY</span>
+        <span class="partner-logo">MARVEL</span>
+        <span class="partner-logo">HASBRO</span>
+        <span class="partner-logo">BANDAI</span>
+        <span class="partner-logo">MEDICOM</span>
+        <span class="partner-logo">KIDROBOT</span>
+    </div>
+</section>
+
+<!-- STORY -->
+<section class="section story-section" id="story" aria-label="关于我们">
+    <div class="story-wrap">
+        <div class="story-text reveal-left"><div class="tag tag-blue">ABOUT US</div><h3 style="margin-top:12px">关于 MOJO PLANET<br>潮玩星球</h3><p>我们是一群热爱艺术与潮流的年轻人，致力于创造独一无二的设计师玩具。每一个角色都承载着设计师的灵感与匠心，从概念草图到最终成品，历经数百次打磨。</p><p>MOJO PLANET 不只是一个潮玩品牌，更是一个连接创作者与收藏家的奇妙星球。</p><div class="story-stats"><div><div class="stat-num" data-target="50">0</div><div class="stat-label">原创IP角色</div></div><div><div class="stat-num" data-target="1000000">0</div><div class="stat-label">收藏家</div></div><div><div class="stat-num" data-target="200">0</div><div class="stat-label">设计师合作</div></div></div></div>
+        <div class="story-visual reveal-right"><div class="story-img-wrap"><img src="潮玩角色海报/治愈.jpg" alt="治愈" class="story-img" loading="lazy"></div><div class="story-img-wrap"><img src="潮玩角色海报/小仙女.jpg" alt="小仙女" class="story-img" loading="lazy"></div></div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer" role="contentinfo">
+    <div class="footer-grid">
+        <div class="footer-brand"><img class="footer-logo" src="公司logo/xingyao-logo.png" alt="MOJO PLANET"><p>探索奇妙潮玩世界，开启你的收藏之旅。<br>每一个角色都是独一无二的艺术品。</p></div>
+        <div class="footer-col"><h4>探索</h4><a href="#">全部IP</a><a href="#">新品上市</a><a href="#">盲盒系列</a><a href="#">限定发售</a></div>
+        <div class="footer-col"><h4>服务</h4><a href="#">帮助中心</a><a href="#">配送说明</a><a href="#">退换政策</a><a href="#">联系客服</a></div>
+        <div class="footer-col"><h4>关注我们</h4><a href="#">微信公众号</a><a href="#">微博</a><a href="#">小红书</a><a href="#">抖音</a></div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 MOJO PLANET. All rights reserved.</p>
+        <div class="footer-social">
+            <a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+            <a href="#" aria-label="GitHub"><svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z"/></svg></a>
+            <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+        </div>
+    </div>
+</footer>
+
+<button class="btt" id="btt" aria-label="回到顶部"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+
+<script>
+// ===== LOADING =====
+window.addEventListener('load', () => {
+    setTimeout(() => document.getElementById('loader').classList.add('hide'), 600);
+});
+
+// ===== CURSOR GLOW =====
+const glow = document.getElementById('cursorGlow');
+document.addEventListener('mousemove', e => { glow.style.left = e.clientX + 'px'; glow.style.top = e.clientY + 'px'; });
+
+// ===== SCROLL PROGRESS =====
+const scrollProgress = document.getElementById('scrollProgress');
+window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    scrollProgress.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100 + '%';
+});
+
+// ===== HERO SLIDER =====
+const slider = document.getElementById('heroSlider');
+const dots = document.querySelectorAll('.hero-nav-dot');
+let cur = 0;
+function go(i) { cur = i; slider.style.transform = `translateX(-${i * 100}%)`; dots.forEach((d, idx) => d.classList.toggle('active', idx === i)); }
+dots.forEach(d => d.addEventListener('click', () => go(+d.dataset.index)));
+setInterval(() => go((cur + 1) % 3), 5000);
+
+// ===== NAV =====
+const nav = document.getElementById('nav');
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-menu a');
+window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', scrollY > 10);
+    let current = '';
+    sections.forEach(s => { if (scrollY >= s.offsetTop - 200) current = s.id; });
+    navLinks.forEach(a => { a.classList.remove('active'); if (a.getAttribute('href') === '#' + current) a.classList.add('active'); });
+});
+
+// ===== HAMBURGER =====
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+const mobileOverlay = document.getElementById('mobileOverlay');
+function toggleMobile() {
+    hamburger.classList.toggle('active');
+    mobileMenu.classList.toggle('open');
+    mobileOverlay.classList.toggle('open');
+}
+hamburger.addEventListener('click', toggleMobile);
+mobileOverlay.addEventListener('click', toggleMobile);
+mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', toggleMobile));
+
+// ===== SEARCH =====
+const searchOverlay = document.getElementById('searchOverlay');
+const searchInput = document.getElementById('searchInput');
+const searchResults = document.getElementById('searchResults');
+const searchHot = document.getElementById('searchHot');
+const navSearchInput = document.getElementById('navSearchInput');
+const allProducts = [
+    { name: '星梦王子', price: '¥399', img: '潮玩角色设定/王子.png', desc: '来自银河深处的浪漫王子' },
+    { name: '东方绮梦', price: '¥459', img: '潮玩角色设定/国风.png', desc: '古典与现代的完美融合' },
+    { name: '赤瞳精灵', price: '¥369', img: '潮玩角色设定/萌系.png', desc: '神秘的暗夜守护者' },
+    { name: '汉韵佳人', price: '¥429', img: '潮玩角色设定/传统汉服.png', desc: '千年华裳的现代演绎' },
+    { name: '森林少女', price: '¥389', img: '潮玩角色设定/森林少女.png', desc: '奇幻森林的守护精灵' },
+    { name: '甜心宝贝', price: '¥69', img: '潮玩角色设定/可爱卡通.png', desc: '甜心宝贝系列盲盒' },
+    { name: '小云仔', price: '¥59', img: '潮玩角色设定/小云仔.png', desc: '云端奇遇系列盲盒' },
+];
+
+function openSearch() { searchOverlay.classList.add('open'); searchInput.focus(); }
+function closeSearch() { searchOverlay.classList.remove('open'); searchInput.value = ''; searchResults.innerHTML = ''; searchHot.style.display = ''; }
+
+navSearchInput.addEventListener('focus', e => { e.target.blur(); openSearch(); });
+document.getElementById('searchClose').addEventListener('click', closeSearch);
+searchOverlay.addEventListener('click', e => { if (e.target === searchOverlay) closeSearch(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSearch(); if (e.key === '/' && !searchOverlay.classList.contains('open') && document.activeElement.tagName !== 'INPUT') { e.preventDefault(); openSearch(); } });
+
+searchInput.addEventListener('input', () => {
+    const q = searchInput.value.trim().toLowerCase();
+    if (!q) { searchResults.innerHTML = ''; searchHot.style.display = ''; return; }
+    searchHot.style.display = 'none';
+    const matched = allProducts.filter(p => p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q));
+    searchResults.innerHTML = matched.length ? matched.map(p => `<div class="search-result-item" data-name="${p.name}"><img src="${p.img}" alt="${p.name}" loading="lazy"><div><h4>${p.name}</h4><p>${p.desc}</p></div><span class="sr-price">${p.price}</span></div>`).join('') : '<p style="text-align:center;color:var(--gray);padding:40px 0">未找到相关商品</p>';
+});
+
+searchResults.addEventListener('click', e => {
+    const item = e.target.closest('.search-result-item');
+    if (!item) return;
+    closeSearch();
+    const name = item.dataset.name;
+    const p = allProducts.find(x => x.name === name);
+    if (p) openModal(p);
+});
+
+document.querySelectorAll('.search-hot-tag').forEach(tag => {
+    tag.addEventListener('click', () => { searchInput.value = tag.textContent; searchInput.dispatchEvent(new Event('input')); });
+});
+
+// ===== CART =====
+let cart = [];
+const cartSidebar = document.getElementById('cartSidebar');
+const cartOverlay = document.getElementById('cartOverlay');
+const cartBody = document.getElementById('cartBody');
+const cartEmpty = document.getElementById('cartEmpty');
+const cartFooter = document.getElementById('cartFooter');
+const cartBadge = document.getElementById('cartBadge');
+const cartTotal = document.getElementById('cartTotal');
+
+function openCart() { cartSidebar.classList.add('open'); cartOverlay.classList.add('open'); }
+function closeCart() { cartSidebar.classList.remove('open'); cartOverlay.classList.remove('open'); }
+document.getElementById('cartBtn').addEventListener('click', openCart);
+document.getElementById('cartClose').addEventListener('click', closeCart);
+cartOverlay.addEventListener('click', closeCart);
+
+function updateCart() {
+    cartBadge.textContent = cart.length;
+    if (cart.length === 0) {
+        cartEmpty.style.display = ''; cartFooter.style.display = 'none';
+        cartBody.querySelectorAll('.cart-item').forEach(el => el.remove());
+    } else {
+        cartEmpty.style.display = 'none'; cartFooter.style.display = '';
+        cartBody.querySelectorAll('.cart-item').forEach(el => el.remove());
+        let total = 0;
+        cart.forEach((item, i) => {
+            total += item.price;
+            const div = document.createElement('div');
+            div.className = 'cart-item';
+            div.innerHTML = `<img src="${item.img}" alt="${item.name}" loading="lazy"><div class="cart-item-info"><h4>${item.name}</h4><div class="cart-item-price">¥${item.price}</div></div><button class="cart-item-del" data-index="${i}">&times;</button>`;
+            cartBody.appendChild(div);
+        });
+        cartTotal.textContent = '¥' + total;
+        cartBody.querySelectorAll('.cart-item-del').forEach(btn => {
+            btn.addEventListener('click', () => { cart.splice(+btn.dataset.index, 1); updateCart(); showToast('已移除商品'); });
+        });
+    }
+}
+
+// ===== MODAL =====
+const modalOverlay = document.getElementById('modalOverlay');
+const modalImg = document.getElementById('modalImg');
+const modalTitle = document.getElementById('modalTitle');
+const modalDesc = document.getElementById('modalDesc');
+const modalPrice = document.getElementById('modalPrice');
+const modalClose = document.getElementById('modalClose');
+const modalCart = document.getElementById('modalCart');
+const modalFav = document.getElementById('modalFav');
+
+function openModal(p) {
+    modalImg.src = p.img; modalImg.alt = p.name;
+    modalTitle.textContent = p.name;
+    modalDesc.textContent = p.desc;
+    modalPrice.textContent = p.price;
+    modalFav.classList.remove('liked');
+    modalOverlay.classList.add('active');
+    modalOverlay._product = p;
+}
+modalClose.addEventListener('click', () => modalOverlay.classList.remove('active'));
+modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) modalOverlay.classList.remove('active'); });
+
+modalCart.addEventListener('click', () => {
+    const p = modalOverlay._product;
+    if (!p) return;
+    const price = parseInt(p.price.replace(/[^0-9]/g, ''));
+    cart.push({ name: p.name, img: p.img, price });
+    updateCart();
+    showToast('已加入购物车');
+    setTimeout(() => modalOverlay.classList.remove('active'), 600);
+});
+
+modalFav.addEventListener('click', () => {
+    modalFav.classList.toggle('liked');
+    showToast(modalFav.classList.contains('liked') ? '已收藏' : '已取消收藏');
+});
+
+document.querySelectorAll('.ip-card').forEach(card => {
+    card.addEventListener('click', () => {
+        const name = card.dataset.name;
+        const p = allProducts.find(x => x.name === name);
+        if (p) openModal(p);
+    });
+});
+
+// ===== TOAST =====
+const toast = document.getElementById('toast');
+const toastText = document.getElementById('toastText');
+function showToast(text) { toastText.textContent = text; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 2000); }
+
+// ===== BLIND BOX =====
+document.querySelectorAll('.blindbox-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+        e.preventDefault();
+        const card = btn.closest('.blindbox-card');
+        const img = card.querySelector('.blindbox-img');
+        img.style.animation = 'boxShake 0.5s ease-in-out';
+        setTimeout(() => {
+            img.style.animation = '';
+            const name = card.querySelector('h3').textContent.replace('盲盒', '');
+            const p = allProducts.find(x => x.name.includes(name.slice(0, 2)));
+            if (p) { cart.push({ name: p.name, img: p.img, price: parseInt(p.price.replace(/[^0-9]/g, '')) }); updateCart(); }
+            showToast('恭喜抽到 ' + (p ? p.name : '隐藏款') + '！');
+        }, 600);
+    });
+});
+
+// ===== FAQ =====
+document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+        const item = q.parentElement;
+        const wasOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+        if (!wasOpen) item.classList.add('open');
+    });
+});
+
+// ===== NEWSLETTER =====
+document.getElementById('newsletterForm').addEventListener('submit', e => {
+    e.preventDefault();
+    showToast('订阅成功！感谢您的关注');
+    e.target.reset();
+});
+
+// ===== FAB =====
+const fabMain = document.getElementById('fabMain');
+const fabSubs = document.querySelectorAll('.fab-sub');
+let fabOpen = false;
+fabMain.addEventListener('click', () => { fabOpen = !fabOpen; fabMain.classList.toggle('active', fabOpen); fabSubs.forEach(s => s.classList.toggle('show', fabOpen)); });
+document.getElementById('fabTop').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+document.getElementById('fabTheme').addEventListener('click', () => { document.body.classList.toggle('dark-theme'); showToast(document.body.classList.contains('dark-theme') ? '深色模式' : '浅色模式'); });
+
+// ===== ANIMATED COUNTERS =====
+function animateCounters() {
+    document.querySelectorAll('.stat-num').forEach(el => {
+        if (el.dataset.animated) return;
+        const target = parseInt(el.dataset.target);
+        if (!target) return;
+        el.dataset.animated = '1';
+        const duration = 1500;
+        const start = performance.now();
+        function tick(now) {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const current = Math.floor(eased * target);
+            el.textContent = target >= 10000 ? (current / 10000).toFixed(0) + '万+' : current + (target > 100 ? '+' : '+');
+            if (progress < 1) requestAnimationFrame(tick);
+            else el.textContent = target >= 10000 ? '100万+' : target + '+';
+        }
+        requestAnimationFrame(tick);
+    });
+}
+const counterObs = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) animateCounters(); }); }, { threshold: 0.3 });
+document.querySelectorAll('.story-stats').forEach(el => counterObs.observe(el));
+
+// ===== REVEAL =====
+const obs = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el => obs.observe(el));
+document.querySelectorAll('.ip-grid .ip-card,.arrivals-grid .arrival-card,.blindbox-grid .blindbox-card,.poster-grid .poster-card,.reviews-grid .review-card,.faq-list .faq-item').forEach((c, i) => c.style.transitionDelay = `${i * 0.08}s`);
+
+// ===== MAGNETIC BUTTONS =====
+document.querySelectorAll('.hero-cta,.blindbox-btn,.featured-card-btn,.cart-checkout').forEach(btn => {
+    btn.addEventListener('mousemove', e => { const r = btn.getBoundingClientRect(); btn.style.transform = `translate(${(e.clientX-r.left-r.width/2)*0.15}px,${(e.clientY-r.top-r.height/2)*0.15}px)`; });
+    btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+});
+
+// ===== RIPPLE =====
+document.querySelectorAll('.hero-cta,.blindbox-btn,.modal-btn-cart,.cart-checkout').forEach(btn => {
+    btn.style.position = 'relative'; btn.style.overflow = 'hidden';
+    btn.addEventListener('click', e => { const r = btn.getBoundingClientRect(); const ripple = document.createElement('span'); ripple.className = 'ripple'; const size = Math.max(r.width, r.height); ripple.style.width = ripple.style.height = size + 'px'; ripple.style.left = (e.clientX - r.left - size / 2) + 'px'; ripple.style.top = (e.clientY - r.top - size / 2) + 'px'; btn.appendChild(ripple); setTimeout(() => ripple.remove(), 600); });
+});
+
+// ===== IP CARD TILT =====
+document.querySelectorAll('.ip-card').forEach(card => {
+    card.addEventListener('mousemove', e => { const r = card.getBoundingClientRect(); const x = (e.clientX - r.left) / r.width - 0.5; const y = (e.clientY - r.top) / r.height - 0.5; card.style.transform = `translateY(-8px) perspective(600px) rotateY(${x*6}deg) rotateX(${-y*6}deg)`; });
+    card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+});
+
+// ===== PARALLAX =====
+window.addEventListener('scroll', () => { document.querySelectorAll('.hero-blob').forEach((b, i) => { b.style.transform = `translateY(${scrollY * (0.08 + i * 0.04)}px)`; }); });
+
+// ===== BACK TO TOP =====
+const btt = document.getElementById('btt');
+window.addEventListener('scroll', () => btt.classList.toggle('show', scrollY > 400));
+btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+// ===== VIDEO PLAYER =====
+const video = document.getElementById('showcaseVideo');
+const bigPlay = document.getElementById('bigPlay');
+const playPauseBtn = document.getElementById('playPauseBtn');
+const playIcon = document.getElementById('playIcon');
+const pauseIcon = document.getElementById('pauseIcon');
+const progressWrap = document.getElementById('progressWrap');
+const progressFill = document.getElementById('progressFill');
+const timeDisplay = document.getElementById('timeDisplay');
+const volumeSlider = document.getElementById('volumeSlider');
+const muteBtn = document.getElementById('muteBtn');
+const volIcon = document.getElementById('volIcon');
+const muteIcon = document.getElementById('muteIcon');
+const speedBtn = document.getElementById('speedBtn');
+const fullscreenBtn = document.getElementById('fullscreenBtn');
+const playerContainer = document.getElementById('playerContainer');
+const videoFallback = document.getElementById('videoFallback');
+
+video.volume = 0.7;
+
+// video error fallback
+video.addEventListener('error', () => { video.style.display = 'none'; bigPlay.style.display = 'none'; videoFallback.style.display = 'flex'; });
+
+function fmt(s) { if (isNaN(s)) return '0:00'; return Math.floor(s / 60) + ':' + (Math.floor(s % 60) < 10 ? '0' : '') + Math.floor(s % 60); }
+function togglePlay() { if (video.paused) video.play(); else video.pause(); }
+function updatePlayUI() { if (video.paused) { playIcon.style.display = ''; pauseIcon.style.display = 'none'; bigPlay.classList.remove('hidden'); } else { playIcon.style.display = 'none'; pauseIcon.style.display = ''; bigPlay.classList.add('hidden'); } }
+
+bigPlay.addEventListener('click', togglePlay);
+video.addEventListener('click', togglePlay);
+playPauseBtn.addEventListener('click', togglePlay);
+video.addEventListener('play', updatePlayUI);
+video.addEventListener('pause', updatePlayUI);
+video.addEventListener('timeupdate', () => { progressFill.style.width = (video.currentTime / video.duration) * 100 + '%'; timeDisplay.textContent = fmt(video.currentTime) + ' / ' + fmt(video.duration); });
+progressWrap.addEventListener('click', e => { video.currentTime = ((e.clientX - progressWrap.getBoundingClientRect().left) / progressWrap.getBoundingClientRect().width) * video.duration; });
+
+let dragging = false;
+progressWrap.addEventListener('mousedown', e => { dragging = true; seek(e); });
+document.addEventListener('mousemove', e => { if (dragging) seek(e); });
+document.addEventListener('mouseup', () => { dragging = false; });
+function seek(e) { const r = progressWrap.getBoundingClientRect(); video.currentTime = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)) * video.duration; }
+
+volumeSlider.addEventListener('input', () => { video.volume = volumeSlider.value; video.muted = false; updateVolIcon(); });
+muteBtn.addEventListener('click', () => { video.muted = !video.muted; updateVolIcon(); });
+function updateVolIcon() { if (video.muted || video.volume === 0) { volIcon.style.display = 'none'; muteIcon.style.display = ''; } else { volIcon.style.display = ''; muteIcon.style.display = 'none'; } }
+
+const speeds = [0.5, 0.75, 1, 1.25, 1.5, 2]; let speedIdx = 2;
+speedBtn.addEventListener('click', () => { speedIdx = (speedIdx + 1) % speeds.length; video.playbackRate = speeds[speedIdx]; speedBtn.textContent = speeds[speedIdx] + 'x'; });
+fullscreenBtn.addEventListener('click', () => { if (document.fullscreenElement) document.exitFullscreen(); else playerContainer.requestFullscreen(); });
+
+// ===== PAGE TRANSITION =====
+const pageTransition = document.getElementById('pageTransition');
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+        const href = a.getAttribute('href');
+        if (href === '#') return;
+        e.preventDefault();
+        pageTransition.className = 'page-transition in';
+        setTimeout(() => { pageTransition.className = 'page-transition out'; document.querySelector(href).scrollIntoView({ behavior: 'smooth' }); }, 400);
+    });
+});
+// ===== MUSIC =====
+const ma=document.getElementById('musicAudio'),mp=document.getElementById('musicPlayBtn'),mi=document.getElementById('musicPlayIcon'),mip=document.getElementById('musicPauseIcon'),mf=document.getElementById('musicProgressFill'),mb=document.getElementById('musicProgressBar'),mc=document.getElementById('musicCurrent'),md=document.getElementById('musicDuration'),mw=document.getElementById('musicWave');
+mp.addEventListener('click',()=>{ma.paused?ma.play():ma.pause()});
+ma.addEventListener('play',()=>{mi.style.display='none';mip.style.display='block';mw.classList.add('active')});
+ma.addEventListener('pause',()=>{mi.style.display='block';mip.style.display='none';mw.classList.remove('active')});
+ma.addEventListener('ended',()=>{mi.style.display='block';mip.style.display='none';mw.classList.remove('active');mf.style.width='0%';mc.textContent='0:00'});
+ma.addEventListener('timeupdate',()=>{const p=(ma.currentTime/ma.duration)*100||0;mf.style.width=p+'%';const m=Math.floor(ma.currentTime/60),s=Math.floor(ma.currentTime%60);mc.textContent=m+':'+String(s).padStart(2,'0')});
+ma.addEventListener('loadedmetadata',()=>{const m=Math.floor(ma.duration/60),s=Math.floor(ma.duration%60);md.textContent=m+':'+String(s).padStart(2,'0')});
+mb.addEventListener('click',e=>{ma.currentTime=(e.offsetX/mb.offsetWidth)*ma.duration});
+</script>
+</body>
+</html>

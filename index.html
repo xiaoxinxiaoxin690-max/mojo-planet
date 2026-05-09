@@ -195,6 +195,37 @@
         .ticker-item.accent{color:var(--blue)}
         @keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
+        /* MUSIC */
+        .music-section{background:var(--light);background-image:radial-gradient(circle,#cbd5e1 1.2px,transparent 1.2px);background-size:20px 20px}
+        .tag-purple{background:rgba(139,92,246,0.1);color:#7C3AED}
+        body.dark-theme .tag-purple{background:rgba(139,92,246,0.2);color:#A78BFA}
+        .music-player{max-width:600px;margin:0 auto;background:var(--white);border-radius:20px;padding:28px 32px;display:grid;grid-template-columns:auto 1fr auto;grid-template-rows:auto auto;gap:12px 20px;align-items:center;box-shadow:0 8px 30px rgba(0,0,0,0.06);border:1px solid #f1f5f9;position:relative;overflow:hidden}
+        .music-cover{width:64px;height:64px;border-radius:14px;overflow:hidden;grid-row:span 2}
+        .music-cover img{width:100%;height:100%;object-fit:cover}
+        .music-info{grid-column:2;display:flex;flex-direction:column;gap:2px}
+        .music-label{font-size:10px;font-weight:700;color:var(--blue);letter-spacing:1px;text-transform:uppercase}
+        .music-title{font-size:18px;font-weight:800;color:var(--dark);margin:0}
+        .music-artist{font-size:12px;color:var(--gray);margin:0}
+        .music-controls{grid-column:3;grid-row:span 2}
+        .music-btn{width:52px;height:52px;border-radius:50%;border:none;background:linear-gradient(135deg,var(--blue),var(--blue-dark));color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s;box-shadow:0 4px 15px rgba(37,99,235,0.25)}
+        .music-btn:hover{transform:scale(1.08);box-shadow:0 6px 25px rgba(37,99,235,0.35)}
+        .music-btn svg{width:22px;height:22px}
+        .music-progress-wrap{grid-column:1/-1;display:flex;align-items:center;gap:12px}
+        .music-progress-bar{flex:1;height:4px;border-radius:2px;background:#e2e8f0;cursor:pointer;position:relative}
+        .music-progress-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--blue),var(--blue-dark));width:0%;transition:width 0.1s linear}
+        .music-time{display:flex;justify-content:space-between;font-size:11px;color:var(--gray);font-family:'Outfit',monospace;min-width:80px}
+        .music-wave{position:absolute;right:32px;bottom:40px;display:flex;align-items:flex-end;gap:3px;opacity:0;transition:opacity 0.3s}
+        .music-wave.active{opacity:1}
+        .music-wave span{width:3px;border-radius:2px;background:var(--blue);height:8px;animation:wave 0.8s ease-in-out infinite alternate}
+        .music-wave span:nth-child(2){height:14px;animation-delay:0.1s}
+        .music-wave span:nth-child(3){height:20px;animation-delay:0.2s}
+        .music-wave span:nth-child(4){height:12px;animation-delay:0.3s}
+        .music-wave span:nth-child(5){height:16px;animation-delay:0.15s}
+        @keyframes wave{0%{transform:scaleY(0.5)}100%{transform:scaleY(1)}}
+        body.dark-theme .music-player{background:#1F2937;border-color:#374151}
+        body.dark-theme .music-title{color:white}
+        body.dark-theme .music-progress-bar{background:#374151}
+
         /* SECTIONS */
         .section{padding:90px 56px;border-top:2px solid #e2e8f0}
         .section-head{text-align:center;margin-bottom:56px}
@@ -690,6 +721,28 @@ body.dark-theme .hero-slide:nth-child(3) .hero-img-col::before{background:linear
 <!-- TICKER 2 -->
 <div class="ticker" aria-hidden="true"><div class="ticker-track"><span class="ticker-item accent">MOJO PLANET</span><span class="ticker-item">DESIGNER TOY</span><span class="ticker-item accent">潮玩星球</span><span class="ticker-item">奇妙冒险</span><span class="ticker-item accent">COLLECTIBLE</span><span class="ticker-item">限定发售</span><span class="ticker-item accent">MOJO PLANET</span><span class="ticker-item">DESIGNER TOY</span><span class="ticker-item accent">潮玩星球</span><span class="ticker-item">奇妙冒险</span><span class="ticker-item accent">COLLECTIBLE</span><span class="ticker-item">限定发售</span></div></div>
 
+<!-- MUSIC -->
+<section class="section music-section" id="music" aria-label="角色歌曲">
+    <div class="section-head reveal"><div class="tag tag-purple">CHARACTER SONG</div><h2>角色歌曲</h2><p>用音乐聆听角色的故事</p><div class="line"></div></div>
+    <div class="music-player reveal">
+        <div class="music-cover"><img src="潮玩角色海报/海报设计5.jpg" alt="Ella角色歌"></div>
+        <div class="music-info">
+            <span class="music-label">角色主题曲</span>
+            <h3 class="music-title">Ella角色歌</h3>
+            <p class="music-artist">MOJO PLANET · 星梦王子系列</p>
+        </div>
+        <div class="music-controls">
+            <button class="music-btn" id="musicPlayBtn" aria-label="播放"><svg id="musicPlayIcon" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3" fill="currentColor"/></svg><svg id="musicPauseIcon" viewBox="0 0 24 24" style="display:none"><rect x="5" y="3" width="5" height="18" rx="1" fill="currentColor"/><rect x="14" y="3" width="5" height="18" rx="1" fill="currentColor"/></svg></button>
+        </div>
+        <div class="music-progress-wrap">
+            <div class="music-progress-bar" id="musicProgressBar"><div class="music-progress-fill" id="musicProgressFill"></div></div>
+            <div class="music-time"><span id="musicCurrent">0:00</span><span id="musicDuration">0:00</span></div>
+        </div>
+        <div class="music-wave" id="musicWave"><span></span><span></span><span></span><span></span><span></span></div>
+        <audio id="musicAudio" preload="metadata" src="角色歌曲/Ella角色歌.mp3"></audio>
+    </div>
+</section>
+
 <!-- IP GRID -->
 <section class="section ip-section" id="ip" aria-label="IP角色">
     <div class="section-head reveal"><div class="tag tag-blue">IP COLLECTION</div><h2>IP 角色宇宙</h2><p>每一个角色，都有属于自己的故事</p><div class="line"></div></div>
@@ -1159,6 +1212,15 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
         setTimeout(() => { pageTransition.className = 'page-transition out'; document.querySelector(href).scrollIntoView({ behavior: 'smooth' }); }, 400);
     });
 });
+// ===== MUSIC =====
+const ma=document.getElementById('musicAudio'),mp=document.getElementById('musicPlayBtn'),mi=document.getElementById('musicPlayIcon'),mip=document.getElementById('musicPauseIcon'),mf=document.getElementById('musicProgressFill'),mb=document.getElementById('musicProgressBar'),mc=document.getElementById('musicCurrent'),md=document.getElementById('musicDuration'),mw=document.getElementById('musicWave');
+mp.addEventListener('click',()=>{ma.paused?ma.play():ma.pause()});
+ma.addEventListener('play',()=>{mi.style.display='none';mip.style.display='block';mw.classList.add('active')});
+ma.addEventListener('pause',()=>{mi.style.display='block';mip.style.display='none';mw.classList.remove('active')});
+ma.addEventListener('ended',()=>{mi.style.display='block';mip.style.display='none';mw.classList.remove('active');mf.style.width='0%';mc.textContent='0:00'});
+ma.addEventListener('timeupdate',()=>{const p=(ma.currentTime/ma.duration)*100||0;mf.style.width=p+'%';const m=Math.floor(ma.currentTime/60),s=Math.floor(ma.currentTime%60);mc.textContent=m+':'+String(s).padStart(2,'0')});
+ma.addEventListener('loadedmetadata',()=>{const m=Math.floor(ma.duration/60),s=Math.floor(ma.duration%60);md.textContent=m+':'+String(s).padStart(2,'0')});
+mb.addEventListener('click',e=>{ma.currentTime=(e.offsetX/mb.offsetWidth)*ma.duration});
 </script>
 </body>
 </html>
