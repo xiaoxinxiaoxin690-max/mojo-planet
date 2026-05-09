@@ -37,8 +37,8 @@
         .scroll-progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--blue-dark),var(--accent));z-index:10001;width:0%;transition:width 0.1s}
 
         /* NAV */
-        .nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 56px;background:#0B1120;border-bottom:1px solid rgba(255,255,255,0.05);transition:all 0.3s}
-        .nav.scrolled{background:#0B1120;box-shadow:0 1px 30px rgba(0,0,0,0.3)}
+        .nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 56px;background:#2B6EF0;border-bottom:1px solid rgba(255,255,255,0.1);transition:all 0.3s;transform:translateZ(0);-webkit-transform:translateZ(0)}
+        .nav.scrolled{background:#2B6EF0;box-shadow:0 1px 30px rgba(0,0,0,0.2)}
         .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
         .nav-logo-img{height:52px;width:auto;object-fit:contain}
         .nav-menu{display:flex;gap:36px;list-style:none}
@@ -483,7 +483,7 @@
 
         /* DARK THEME */
         body.dark-theme{background:#111827;color:#E5E7EB}
-        body.dark-theme .nav{background:#0B1120;border-color:rgba(255,255,255,0.05)}
+        body.dark-theme .nav{background:#2B6EF0;border-color:rgba(255,255,255,0.1)}
         body.dark-theme .hamburger span{background:white}
         body.dark-theme .ip-section,body.dark-theme .featured-section,body.dark-theme .arrivals-section,body.dark-theme .blindbox-section,body.dark-theme .story-section,body.dark-theme .reviews-section,body.dark-theme .faq-section,body.dark-theme .poster-section{background:#111827}
         body.dark-theme .ip-section,body.dark-theme .featured-section,body.dark-theme .poster-section,body.dark-theme .reviews-section,body.dark-theme .story-section{background-image:radial-gradient(circle,#1f2937 1.2px,transparent 1.2px)}
@@ -541,7 +541,7 @@ body.dark-theme .hero-img-col .hero-img{border-color:#374151}
             .hero-nav{left:24px}
         }
         @media(max-width:768px){
-            .nav{padding:0 16px;background:rgba(15,23,42,0.92);backdrop-filter:blur(12px)}
+            .nav{padding:0 16px;background:rgba(43,110,240,0.97)}
             .nav-menu{display:none}
             .nav-search{display:none}
             .nav-user{display:none}
